@@ -4,7 +4,7 @@
    la última copia guardada. El resto de archivos, al revés: primero caché.
    v2: nueva versión de la app (calendario, gráficas, peso corporal). */
 
-const CACHE = 'progreso-v3';
+const CACHE = 'progreso-v4';
 const ASSETS = [
   './',
   './index.html',
