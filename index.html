@@ -1642,9 +1642,9 @@ const PH={
     how:{obj:'Fuerza máxima en los cuatro básicos, con técnica perfecta: primero fuerte, luego grande.',
          ritmo:'Explosivo: bajada controlada, 1" de pausa abajo, subida lo más rápida posible, 1" arriba.',
          esf:'Básicos con un peso fijo (75–85 % de tu máximo), 3–5 repeticiones y mucho margen: no se llega al fallo. Complementos, a 1–2 del fallo.',
-         fmt:'Básicos en series seguidas con 3\' de descanso; complementos alternados (superserie con descanso) o en circuito.'},
-    why:'Ganar fuerza en sentadilla, peso muerto, press banca y press militar: es la única fase con series de 3–5 repeticiones. La ECN la incluye porque ser más fuerte te deja mover más peso después, cuando buscas músculo («primero fuerte, luego grande»). El peso de los básicos es un porcentaje de tu máximo (1RM), que la app estima con tus registros. Hay dos «ondas» de 3 semanas (al 75 % y al 80 %) y una semana final de descarga técnica. Los básicos descansan 3\' (la hoja de Amorosi pone 1–1,5\', pero en entrenados descansar más de 2\' da más fuerza). Después viene la fase híbrida.',
-    wk:['Onda 1 · <b>8×3 al 75 %</b> con <b>3\' de descanso</b>. Peso moderado: podrías hacer muchas más repeticiones. Busca técnica perfecta y velocidad al subir. Complementos: deja 1–2 en recámara.',
+         fmt:'Básicos en series seguidas con 1\'–1\'30" de descanso (si una serie te ha costado más de lo normal, alarga hasta 2\'); complementos alternados (superserie con descanso) o en circuito.'},
+    why:'Ganar fuerza en sentadilla, peso muerto, press banca y press militar: es la única fase con series de 3–5 repeticiones. La ECN la incluye porque ser más fuerte te deja mover más peso después, cuando buscas músculo («primero fuerte, luego grande»). El peso de los básicos es un porcentaje de tu máximo (1RM), que la app estima con tus registros. Hay dos «ondas» de 3 semanas (al 75 % y al 80 %) y una semana final de descarga técnica. Los básicos descansan poco (1\'–1\'30", como en la hoja de Amorosi) porque son series de 3–5 repeticiones con un peso que podrías mover unas 10 veces: cansan poco y se recuperan rápido. Los descansos largos (3\') se reservan para las series pesadas cerca del fallo de la fase híbrida. Después viene la fase híbrida.',
+    wk:['Onda 1 · <b>8×3 al 75 %</b>, 1\' de descanso. Peso moderado: podrías hacer muchas más repeticiones. Busca técnica perfecta y velocidad al subir. Complementos: deja 1–2 en recámara.',
         '<b>7×4 al 75 %</b>: el mismo peso que la semana pasada, una repetición más por serie.',
         '<b>6×5 al 75 %</b>: mismo peso, cinco repeticiones por serie.',
         'Onda 2 · sube al <b>80 %</b> y vuelves a 3 repeticiones por serie (8×3).',
@@ -1653,8 +1653,9 @@ const PH={
         '<b>Descarga técnica</b> · 8×2 al 85 %: pocas repeticiones y máxima concentración. Los complementos bajan a 2×12 y a una sola vuelta. Sirve para recuperar y asimilar.'],
     blocks:w=>{
       const WV=[[8,3,75],[7,4,75],[6,5,75],[8,3,80],[7,4,80],[6,5,80],[8,2,85]];
-      // Hoja de Amorosi: 1'00–1'30. Se usa 3' porque en entrenados hace falta >2' para sacar el máximo de fuerza (Grgic 2018)
-      const wave=half=>({sets:rp(half?Math.ceil(WV[w][0]/2):WV[w][0],WV[w][1],WV[w][2]),rest:180,rir:null});
+      // Descansos de la hoja de Amorosi (1'00–1'30): las series son cortas y con mucho margen, así que cansan poco.
+      // Los 3' se reservan para series pesadas cerca del fallo (básico principal de la fase híbrida).
+      const wave=half=>({sets:rp(half?Math.ceil(WV[w][0]/2):WV[w][0],WV[w][1],WV[w][2]),rest:[60,75,90,60,75,90,90][w],rir:null});
       const r1=w<6?1:2,r2=w<6?2:3;
       const alt=rir=>({sets:rp([4,3,4,3,4,3,2][w],[8,10,8,10,8,10,12][w]),rest:w<6?45:60,rir});
       const circ=(r,r7,rest,rest7,rir)=>({sets:rp(w<6?3:1,w<6?r:r7),rest:w<6?rest:rest7,rir});
