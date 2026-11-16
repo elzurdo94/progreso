@@ -376,6 +376,36 @@ details.card[open]>summary::after{content:"−"}
 .plan-warn{background:var(--panel);border-left-color:var(--bad)}
 .plan-warn .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
 .plan-info{background:var(--panel);border-left-color:var(--dim)}
+.pmap{display:flex;align-items:stretch;gap:4px;margin-top:12px}
+.pmap>i{align-self:center;color:var(--dim);font-style:normal;font-size:13px;flex:0 0 auto}
+.pmap>i.pm-loop{font-size:16px;color:var(--accent-text)}
+.pm-s{flex:1;min-width:0;border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:8px 4px 7px;text-align:center;cursor:pointer;color:var(--text);font:inherit}
+.pm-s b{display:inline-flex;width:24px;height:24px;border-radius:50%;align-items:center;justify-content:center;background:var(--line);color:var(--text);font-size:12px}
+.pm-s span{display:block;font-weight:800;font-size:13px;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pm-s small{display:block;font-size:11px;color:var(--muted);margin-top:1px}
+.pm-s.cur{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);background:color-mix(in srgb,var(--accent) 14%,var(--panel))}
+.pm-s.cur b{background:var(--accent);color:var(--accent-ink)}
+.pm-s.done b{background:var(--good);color:var(--inset)}
+.pm-wk{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px;font-size:12px;color:var(--muted);font-weight:700}
+.pm-wk .linkbtn{font-size:13px;font-weight:800}
+.plan-phbtn{width:100%;margin-top:14px;font-size:14px}
+.phc{margin-top:12px;padding:12px;border-radius:14px;border:1px solid var(--line);background:var(--surface)}
+.phc.cur{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.phc-h{display:flex;align-items:center;gap:10px}
+.phc-h b{display:block;font-size:16px}
+.phc-h small{display:block;font-size:12px;color:var(--muted)}
+.phc-t{margin-top:8px;font-size:14px;font-weight:600}
+.phc-m{margin-top:4px;font-size:13px;color:var(--muted);line-height:1.4}
+.phc-m b{color:var(--text)}
+.phc-now{margin-top:10px;font-size:13px;font-weight:800;color:var(--accent-text)}
+.phc .row{margin-top:8px}
+.trk{display:flex;flex-direction:column;gap:6px}
+.trk-i{padding:10px 12px;border-radius:12px;border:1px solid var(--line);border-left:4px solid var(--dim);background:var(--surface);font-size:13px}
+.trk-i b{display:block;font-size:14px}
+.trk-i span{display:block;color:var(--muted);margin-top:2px}
+.trk-i em{display:block;font-style:normal;font-weight:700;margin-top:2px;color:var(--muted)}
+.trk-i.ok{border-left-color:var(--good)}.trk-i.ok em{color:var(--good)}
+.trk-i.cur{border-left-color:var(--accent)}.trk-i.cur em{color:var(--accent-text)}
 .wk-h{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:12px;font-size:12px;color:var(--muted);font-weight:700}
 .wk-h .linkbtn{font-size:12px}
 .wk-strip{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:6px}
@@ -640,6 +670,13 @@ nav button.active{color:var(--accent-text);background:color-mix(in srgb,var(--ac
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="galTitle">
     <div class="sheet-h"><b id="galTitle">Elige la imagen del ejercicio</b><button type="button" class="icon-btn" data-act="gal-close" aria-label="Cerrar">✕</button></div>
     <div class="sheet-b" id="galBody"></div>
+  </div>
+</div>
+
+<div class="modal" id="phSheet" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="phTitle">
+    <div class="sheet-h"><b id="phTitle">Fases del plan</b><button type="button" class="icon-btn" data-act="ph-close" aria-label="Cerrar">✕</button></div>
+    <div class="sheet-b" id="phBody"></div>
   </div>
 </div>
 
@@ -1530,7 +1567,7 @@ const varOf=(ph,f)=>f===1?'u':(ph==='reac'&&f===3?'abc':'ab');
 const ROT={abc:['A','B','C'],ab:['A','B'],u:['U']};
 const rotOf=(ph,f)=>ROT[varOf(ph,f)];
 const PH={
-  reac:{n:1,name:'Reacondicionamiento',weeks:4,ex:'ctrl',
+  reac:{n:1,name:'Reacondicionamiento',short:'Técnica',weeks:4,ex:'ctrl',
     ses:{abc:{A:'Piernas, hombros y abdomen',B:'Espalda, femorales y bíceps',C:'Pecho, tríceps, gemelos y abdomen'},
          ab:{A:'Sentadilla, press banca y dominadas',B:'Peso muerto, press militar y brazos'},
          u:{U:'Cuerpo completo (sesión única)'}},
@@ -1577,7 +1614,7 @@ const PH={
              {t:'Bisagra y hombro',info:'Peso muerto y press militar con series rectas.',items:[{key:'dl',...c12()},{key:'ohp',...c12()}]},CORE]}
       };
     }},
-  ondas:{n:2,name:'Especialización técnica',weeks:7,ex:'expl',
+  ondas:{n:2,name:'Especialización técnica',short:'Fuerza',weeks:7,ex:'expl',
     ses:{ab:{A:'Peso muerto, press militar y complementos',B:'Sentadilla, press banca y complementos'},
          u:{U:'Cuerpo completo (sesión única)'}},
     how:{obj:'Fuerza máxima en los cuatro básicos, con técnica perfecta: primero fuerte, luego grande.',
@@ -1617,7 +1654,7 @@ const PH={
     }},
   /* Fase 3: no hay hoja de la ECN en el proyecto. Misma plantilla por bloques y parejas alternadas de la ECN; series y
      repeticiones según la evidencia en hipertrofia (6–15 reps, cada semana más cerca del fallo, descarga al final). */
-  hip:{n:3,name:'Hipertrofia',weeks:6,ex:'hyp',
+  hip:{n:3,name:'Hipertrofia',short:'Hipertrofia',weeks:6,ex:'hyp',
     ses:{ab:{A:'Peso muerto, press militar y complementos',B:'Sentadilla, press banca y complementos'},
          u:{U:'Cuerpo completo (sesión única)'}},
     how:{obj:'Hipertrofia: hacer crecer el músculo, que es lo que más se nota a la vista.',
@@ -1903,6 +1940,55 @@ function weekStripHTML(){
   }
   return '<div class="wk-h"><span>Tu semana · entrenas '+days.map(n=>DOW_L[n-1]).join(', ').replace(/, ([^,]*)$/,' y $1')+'</span><button type="button" class="linkbtn" data-act="plan-days">Cambiar días</button></div><div class="wk-strip">'+h+'</div>';
 }
+/* Tramos de fase registrados, en orden (para el mapa y «Tu recorrido») */
+function phaseRuns(){
+  const D=S.plan.done,runs=[];let r=null;
+  D.forEach((x,i)=>{
+    const p=D[i-1];
+    if(!r||x.ph!==r.ph||(p&&x.mc<p.mc)){r={ph:x.ph,from:x.d,to:x.d,n:0,maxMc:0};runs.push(r);}
+    r.to=x.d;r.n++;r.maxMc=Math.max(r.maxMc,x.mc);
+  });
+  const pos=planPos(),li=runs.length-1;
+  runs.forEach((r,i)=>{
+    r.full=r.maxMc===PH[r.ph].weeks&&(i<li||pos.ph!==r.ph||pos.mc<r.maxMc);
+    r.cur=i===li&&!r.full&&pos.ph===r.ph;
+  });
+  return runs;
+}
+function phaseMapHTML(cur){
+  const done=new Set(phaseRuns().filter(r=>r.full).map(r=>r.ph));
+  return '<div class="pmap">'+PH_ORDER.map((k,i)=>(i?'<i aria-hidden="true">→</i>':'')+
+    '<button type="button" class="pm-s'+(k===cur?' cur':done.has(k)?' done':'')+'" data-act="plan-phases" aria-label="Fase '+PH[k].n+': '+PH[k].short+(k===cur?' (ahora)':done.has(k)?' (hecha)':'')+'">'+
+    '<b>'+(done.has(k)&&k!==cur?'✓':PH[k].n)+'</b><span>'+PH[k].short+'</span><small>'+PH[k].weeks+' sem'+(k==='hip'?' ×2':'')+'</small></button>').join('')+
+    '<i class="pm-loop" aria-hidden="true">↻</i></div>';
+}
+function openPhases(){
+  const today=todayISO(),pd=planDay(today),pos=planPos(),cur=pd&&!pd.end?pd.ph:pos.ph,curMc=pd&&!pd.end?pd.mc:pos.mc;
+  let h='<p class="hint" style="margin-top:10px">El plan va en ciclo: <b>Técnica → Fuerza → Hipertrofia (2 bloques) → Fuerza → …</b> Puedes cambiar de fase cuando quieras: lo que ya has registrado no cambia y el cambio cuenta desde tu próxima sesión.</p>';
+  PH_ORDER.forEach(k=>{
+    const P=PH[k],isCur=k===cur;
+    h+='<div class="phc'+(isCur?' cur':'')+'"><div class="phc-h"><span class="pb-n">'+P.n+'</span><div><b>'+esc(P.short)+'</b><small>'+esc(P.name)+' · '+P.weeks+' semanas'+(k==='hip'?' (se hace 2 veces seguidas)':'')+'</small></div></div>'+
+      '<div class="phc-t">'+esc(P.how.obj)+'</div>'+
+      '<div class="phc-m"><b>Ritmo:</b> '+esc(P.how.ritmo)+'</div><div class="phc-m"><b>Esfuerzo:</b> '+esc(P.how.esf)+'</div>'+
+      (isCur?'<div class="phc-now">Estás aquí · semana '+curMc+' de '+P.weeks+'</div><div class="row"><select id="phWk" aria-label="Semana">'+Array.from({length:P.weeks},(_,i)=>'<option value="'+(i+1)+'"'+(i+1===curMc?' selected':'')+'>Semana '+(i+1)+'</option>').join('')+'</select><button class="btn small" data-act="ph-goto-wk" data-ph="'+k+'">Ir a esa semana</button></div>'
+            :'<button class="btn small" style="margin-top:10px" data-act="ph-goto" data-ph="'+k+'">Pasar a esta fase</button>')+'</div>';
+  });
+  const runs=phaseRuns();
+  h+='<div class="cat-h">Tu recorrido</div>';
+  h+=runs.length?'<div class="trk">'+runs.map(r=>'<div class="trk-i'+(r.full?' ok':r.cur?' cur':'')+'"><b>Fase '+PH[r.ph].n+' · '+esc(PH[r.ph].short)+'</b><span>'+fmtShort(r.from)+(r.to!==r.from?' → '+fmtShort(r.to):'')+' · '+plural(r.n,'sesión','sesiones')+'</span><em>'+(r.full?'✓ completada':r.cur?'en curso · vas por la semana '+pos.mc+' de '+PH[r.ph].weeks:'la dejaste en la semana '+r.maxMc)+'</em></div>').join('')+'</div>'
+    :'<p class="hint">Aún no has registrado ninguna sesión del plan.</p>';
+  h+='<div class="row" style="margin-top:16px"><button class="btn small" data-act="plan-off">Pausar el plan</button></div>';
+  $('phBody').innerHTML=h;$('phSheet').hidden=false;document.body.style.overflow='hidden';
+}
+function closePhases(){$('phSheet').hidden=true;document.body.style.overflow='';}
+function planGoto(ph,mc){
+  if(!PH[ph])return;
+  S.plan.at={ph,mc:Math.min(Math.max(1,mc||1),PH[ph].weeks)};S.plan.sw=null;
+  if(!save())return;
+  const t=todayISO(),hoy=!S.plan.done.some(x=>x.d===t);
+  closePhases();resetForm();$('planBox').scrollIntoView({behavior:'smooth',block:'start'});
+  toast((hoy?'Hoy toca':'Desde tu próxima sesión:')+' Fase '+PH[ph].n+' ('+PH[ph].short+'), semana '+S.plan.at.mc,true);
+}
 function renderPlan(pd){
   const box=$('planBox');
   if(!S.plan){box.innerHTML=planStartHTML();return;}
@@ -1913,6 +1999,7 @@ function renderPlan(pd){
   let h='<div class="card plan"><div class="plan-k">Plan ECN · Fase '+P.n+' de '+PH_ORDER.length+' · <b>'+esc(P.name)+'</b></div>'+
     '<div class="plan-t">Sesión '+pd.s+'<span>'+esc(P.ses[ses.v][pd.s])+'</span></div>'+
     '<div class="plan-s">'+(pd.ph==='hip'?'Bloque '+hipBlock(pd)+' · ':'')+'Semana '+pd.mc+' de '+P.weeks+' · sesión '+Math.min(pd.rec?nDone:nDone+1,per)+' de '+per+(pd.rec?' · <span class="up">registrada</span>':'')+'</div>';
+  h+=phaseMapHTML(pd.ph)+'<div class="pm-wk"><span>Fase '+P.n+' · semana '+pd.mc+' de '+P.weeks+'</span><button type="button" class="linkbtn" data-act="plan-phases">Cambiar de fase</button></div>';
   h+='<div class="plan-dots" aria-hidden="true">';
   for(let i=1;i<=P.weeks;i++)h+='<i class="'+(i<pd.mc?'ok':i===pd.mc?'cur':'')+'"'+(i===pd.mc?' style="--p:'+Math.round(100*Math.min(nDone,per)/per)+'%"':'')+'></i>';
   h+='</div>'+weekStripHTML();
@@ -1968,12 +2055,7 @@ function renderPlan(pd){
   const pos=pd.rec?planPos():pd.pos;
   h+='<details class="pd"><summary>¿Para qué sirve esta fase?</summary><div class="pd-b"><p>'+esc(P.why)+'</p><p><b>Ritmo:</b> '+esc(EXEC[P.ex].d)+'</p></div></details>'+
     '<details class="pd"><summary>Conceptos clave</summary><div class="pd-b">'+GLOSARIO.map(g=>'<p><b>'+esc(g[0])+':</b> '+esc(g[1])+'</p>').join('')+'</div></details>'+
-    '<details class="pd"><summary>Ajustes del plan</summary><div class="pd-b">'+
-      (S.plan.at?'<p>Tu próxima sesión empezará en la <b>Fase '+PH[S.plan.at.ph].n+', semana '+S.plan.at.mc+'</b>.</p>':'')+
-      '<p>Mover el plan a otra fase o semana (lo ya registrado no cambia):</p>'+
-      '<div class="row"><select id="pgPh" aria-label="Fase">'+phaseOptsHTML(pos.end?pd.ph:pos.ph)+'</select><select id="pgWk" aria-label="Semana" style="flex:0 0 112px">'+Array.from({length:7},(_,i)=>'<option value="'+(i+1)+'"'+(i+1===(pos.end?1:pos.mc)?' selected':'')+'>Semana '+(i+1)+'</option>').join('')+'</select></div>'+
-      '<div class="row"><button class="btn small" data-act="plan-goto-sel">Aplicar</button><button class="btn small" data-act="plan-off">Pausar el plan</button></div>'+
-    '</div></details></div>';
+    '<button type="button" class="btn plan-phbtn" data-act="plan-phases">Fases del plan · cambiar de etapa · tu recorrido</button></div>';
   box.innerHTML=h;
 }
 /* Elegir un ejercicio del plan: lo selecciona en el formulario con las series del plan ya preparadas */
@@ -2620,7 +2702,8 @@ function pickFig(f){
 }
 $('gallery').addEventListener('click',e=>{if(e.target===$('gallery'))closeGallery();});
 $('altSheet').addEventListener('click',e=>{if(e.target===$('altSheet'))closeAlt();});
-document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(!$('gallery').hidden)closeGallery();if(!$('altSheet').hidden)closeAlt();});
+$('phSheet').addEventListener('click',e=>{if(e.target===$('phSheet'))closePhases();});
+document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(!$('gallery').hidden)closeGallery();if(!$('altSheet').hidden)closeAlt();if(!$('phSheet').hidden)closePhases();});
 $('exName').addEventListener('input',()=>{if(!formFig)renderFormFig();});
 $('exCat').addEventListener('change',()=>{if(!formFig)renderFormFig();});
 
@@ -2796,17 +2879,14 @@ document.addEventListener('click',ev=>{
       renderLog();$('planBox').scrollIntoView({behavior:'smooth',block:'start'});toast('Plan en marcha: toca un ejercicio para empezar',true);break;
     }
     case 'plan-on':delete S.plan.off;save();renderLog();toast('Plan reanudado');break;
-    case 'plan-off':S.plan.off=true;save();resetForm();toast('Plan en pausa');break;
+    case 'plan-off':S.plan.off=true;save();closePhases();resetForm();toast('Plan en pausa');break;
+    case 'plan-phases':openPhases();break;
+    case 'ph-close':closePhases();break;
+    case 'ph-goto':{const k=el.dataset.ph;if(PH[k]&&confirm('¿Pasar a la Fase '+PH[k].n+' ('+PH[k].short+') desde la semana 1? Lo que ya has registrado no cambia.'))planGoto(k,1);break;}
+    case 'ph-goto-wk':planGoto(el.dataset.ph,+$('phWk').value);break;
     case 'plan-item':selectPlanItem(el.dataset.key,true);break;
     case 'plan-swap':S.plan.sw={d:$('date').value,s:el.dataset.s};save();resetForm();toast('Hoy toca la sesión '+el.dataset.s);break;
-    case 'plan-goto':case 'plan-goto-sel':{
-      const ph=el.dataset.act==='plan-goto'?el.dataset.ph:$('pgPh').value;
-      const mc=el.dataset.act==='plan-goto'?+el.dataset.mc:+$('pgWk').value;
-      if(!PH[ph])break;
-      S.plan.at={ph,mc:Math.min(Math.max(1,mc||1),PH[ph].weeks)};S.plan.sw=null;
-      if(!save())return;
-      resetForm();toast('Próxima sesión: Fase '+PH[ph].n+', semana '+S.plan.at.mc);break;
-    }
+    case 'plan-goto':planGoto(el.dataset.ph,+el.dataset.mc);break;
     case 'plan-alt':openAlt(el.dataset.key);break;
     case 'alt-close':closeAlt();break;
     case 'alt-pick':{
