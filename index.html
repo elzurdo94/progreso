@@ -378,17 +378,6 @@ details.card[open]>summary::after{content:"−"}
 .plan-info{background:var(--panel);border-left-color:var(--dim)}
 .mus-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
 .mus{font-size:12px;font-weight:800;padding:3px 9px;border-radius:999px;background:color-mix(in srgb,var(--accent) 16%,var(--panel));border:1px solid color-mix(in srgb,var(--accent) 45%,var(--line));color:var(--text)}
-.wlist{display:flex;flex-direction:column;gap:5px;margin-top:6px}
-.wl{display:grid;grid-template-columns:52px 1fr auto;gap:8px;align-items:center;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--panel);font-size:13px}
-.wl b{font-weight:800;font-variant-numeric:tabular-nums}
-.wl span{color:var(--muted);line-height:1.3}
-.wl em{font-style:normal;font-weight:800;color:var(--text);margin-right:6px}
-.wl i{font-style:normal;font-weight:800;font-size:12px}
-.wl.ok{border-color:color-mix(in srgb,var(--good) 55%,var(--line));background:color-mix(in srgb,var(--good) 10%,var(--panel))}
-.wl.ok i{color:var(--good)}
-.wl.td{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
-.wl.td i{color:var(--accent-text)}
-.wl.miss{opacity:.7}
 .swap-o{display:block;width:100%;text-align:left;padding:9px 12px;border-radius:12px;border:1px dashed var(--line);background:var(--inset);color:var(--text);font:inherit;cursor:pointer}
 .swap-o b{display:block}
 .swap-o small{display:block;color:var(--muted);font-size:12px;margin-top:1px}
@@ -407,8 +396,6 @@ details.card[open]>summary::after{content:"−"}
 .pm-s.cur{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);background:color-mix(in srgb,var(--accent) 14%,var(--panel))}
 .pm-s.cur b{background:var(--accent);color:var(--accent-ink)}
 .pm-s.done b{background:var(--good);color:var(--inset)}
-.pm-wk{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px;font-size:12px;color:var(--muted);font-weight:700}
-.pm-wk .linkbtn{font-size:13px;font-weight:800}
 .plan-phbtn{width:100%;margin-top:14px;font-size:14px}
 .phc{margin-top:12px;padding:12px;border-radius:14px;border:1px solid var(--line);background:var(--surface)}
 .phc.cur{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
@@ -427,18 +414,59 @@ details.card[open]>summary::after{content:"−"}
 .trk-i em{display:block;font-style:normal;font-weight:700;margin-top:2px;color:var(--muted)}
 .trk-i.ok{border-left-color:var(--good)}.trk-i.ok em{color:var(--good)}
 .trk-i.cur{border-left-color:var(--accent)}.trk-i.cur em{color:var(--accent-text)}
-.wk-h{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:12px;font-size:12px;color:var(--muted);font-weight:700}
-.wk-h .linkbtn{font-size:12px}
-.wk-strip{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:6px}
-.wd{border-radius:10px;padding:6px 0 7px;text-align:center;background:transparent;border:1px dashed var(--line);color:var(--dim);min-height:50px}
-.wd b{display:block;font-size:11px;font-weight:700}
-.wd span{display:block;font-size:14px;font-weight:800;margin-top:3px;min-height:18px;font-variant-numeric:tabular-nums}
-.wd.tr{border:1px solid var(--line);background:var(--panel);color:var(--text)}
+.wk-h{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:14px;font-size:12px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.fq{display:inline-flex;align-items:center;gap:4px;text-transform:none;letter-spacing:0}
+.fq em{font-style:normal;font-weight:600;font-size:12px;margin-right:2px}
+.fq button{min-width:36px;min-height:34px;border-radius:9px;border:1px solid var(--line);background:var(--inset);color:var(--muted);font-weight:800;font-size:14px;cursor:pointer;padding:0}
+.fq button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.wk-strip{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px}
+.wd{border-radius:10px;padding:5px 0 6px;text-align:center;background:transparent;border:1px dashed var(--line);color:var(--dim);min-height:60px;font:inherit;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:1px;width:100%;min-width:0}
+.wd b{font-size:11px;font-weight:700}
+.wd small{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.1}
+.wd span{font-size:14px;font-weight:800;min-height:18px;line-height:1.25}
+.wd.tr{border:1px solid color-mix(in srgb,var(--accent) 60%,var(--line));background:color-mix(in srgb,var(--accent) 15%,var(--panel));color:var(--text)}
 .wd.nx span{color:var(--accent-text)}
-.wd.ok{border-color:var(--good);background:color-mix(in srgb,var(--good) 14%,var(--panel))}
-.wd.ok span{color:var(--good)}
+.wd.ok{border:1px solid var(--good);background:color-mix(in srgb,var(--good) 14%,var(--panel));color:var(--text);cursor:default}
+.wd.ok span{color:var(--good);font-size:13px}
+.wd.miss{background:var(--panel);border-color:var(--line)}
 .wd.miss span{color:var(--dim)}
-.wd.td{box-shadow:inset 0 0 0 2px var(--accent)}
+.wd.td{box-shadow:inset 0 0 0 2px var(--accent-text)}
+.wd.td small{color:var(--accent-text);font-weight:800}
+.wk-leg{display:flex;flex-direction:column;gap:2px;margin-top:8px;font-size:12px;color:var(--muted);line-height:1.35}
+.wk-leg b{color:var(--text);font-weight:800;margin-right:4px}
+.wk-tip{font-size:11px;color:var(--dim);margin-top:4px}
+.plan-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.plan-row .btn{flex:0 0 auto}
+/* Plegables: textos explicativos cerrados por defecto */
+details.fold{margin-top:8px}
+details.fold>summary{cursor:pointer;color:var(--muted);font-size:13px;font-weight:700;list-style:none;padding:6px 0;display:inline-block}
+details.fold>summary::-webkit-details-marker{display:none}
+details.fold>summary::before{content:"▸ "}
+details.fold[open]>summary::before{content:"▾ "}
+details.fold .plan-how,details.fold .plan-swap{margin-top:4px}
+.goal details.fold{margin-top:4px}
+.goal details.fold>summary{padding:4px 0}
+.pb0{padding:9px 10px}
+.pb0 .pb-h{flex-wrap:nowrap}
+.pb-r{margin-left:auto;white-space:nowrap;text-transform:none;letter-spacing:0;font-weight:700;font-size:12px;color:var(--muted)}
+details.pb-d>summary{list-style:none;cursor:pointer}
+details.pb-d>summary::-webkit-details-marker{display:none}
+details.pb-d>summary::after{content:"i";display:inline-flex;width:22px;height:22px;border-radius:50%;border:1px solid var(--line);align-items:center;justify-content:center;
+  font-size:12px;font-weight:800;font-style:italic;font-family:Georgia,serif;color:var(--muted);background:var(--inset)}
+details.pb-d[open]>summary::after{border-color:var(--accent);color:var(--accent-text)}
+details.pb-d .pb-i{margin-top:6px}
+/* Formulario abierto dentro de la tarjeta del plan */
+.pi-row{scroll-margin-top:10px}
+.pi-row.open .pi{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);border-bottom-left-radius:4px;border-bottom-right-radius:4px}
+#logForm.inl{margin-top:4px;padding:2px 10px 12px;border-radius:4px 4px 12px 12px;border:1px solid var(--accent);background:var(--inset);animation:fadeIn .18s ease-out}
+#logForm.inl .exfig,#logForm.inl .last,#logForm.inl .live{box-shadow:none;border-color:transparent;background:var(--panel)}
+#logForm.inl .exfig{margin-top:10px}
+#logForm.inl .exfig .fg{width:104px}
+#logForm.inl .exfig .nm{display:none}
+#logForm.inl .last{margin-top:8px;padding:12px}
+#logForm.inl .last .big{font-size:30px}
+#logForm.inl .set input{background:var(--surface)}
 .plan-how{margin-top:12px;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--panel)}
 .plan-how-h{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--accent-text);margin-bottom:4px}
 .ph-r{display:grid;grid-template-columns:78px 1fr;gap:8px;padding:6px 0;border-top:1px solid var(--line);font-size:13px;line-height:1.4}
@@ -530,8 +558,8 @@ nav button.active{color:var(--accent-text);background:color-mix(in srgb,var(--ac
     <div class="seg type-seg" id="typeSeg" role="group" aria-label="Tipo de entrenamiento"></div>
     <div class="hint" id="typeHint"></div>
 
-    <div class="field">
-      <label for="exSel">Ejercicio</label>
+    <div class="field" id="exField">
+      <label for="exSel" id="exLbl">Ejercicio</label>
       <div class="row">
         <select id="exSel"></select>
         <button class="btn" style="flex:0 0 auto" id="goNewEx">Nuevo</button>
@@ -539,6 +567,8 @@ nav button.active{color:var(--accent-text);background:color-mix(in srgb,var(--ac
     </div>
     <div class="quick" id="quick"></div>
 
+    <div id="formHome"></div>
+    <div id="logForm">
     <div class="exfig" id="exFig"></div>
     <div class="last empty" id="last">Elige un ejercicio para ver tu último registro.</div>
 
@@ -546,7 +576,7 @@ nav button.active{color:var(--accent-text);background:color-mix(in srgb,var(--ac
     <div id="sets"></div>
     <button class="btn" style="width:100%;margin-top:10px" id="addSet">+ Añadir serie</button>
     <div class="live" id="live" aria-live="polite"></div>
-    <p class="hint">Toca el número de una serie para marcarla como <b>aproximación</b> (A): se guarda, pero no cuenta como serie efectiva ni para tu progreso.</p>
+    <details class="fold"><summary>Series de aproximación (A)</summary><p class="hint" style="margin-top:2px">Toca el número de una serie para marcarla como <b>aproximación</b> (A): se guarda, pero no cuenta como serie efectiva ni para tu progreso.</p></details>
 
     <div class="field">
       <label for="note">Nota (opcional)</label>
@@ -555,6 +585,7 @@ nav button.active{color:var(--accent-text);background:color-mix(in srgb,var(--ac
 
     <button class="btn primary" id="saveBtn">Guardar ejercicio</button>
     <button class="btn ghost" style="width:100%;margin-top:6px;display:none" id="cancelEdit">Cancelar edición</button>
+    </div>
 
     <h2 id="dayTitle">Registrado hoy</h2>
     <div id="daySum"></div>
@@ -611,7 +642,7 @@ nav button.active{color:var(--accent-text);background:color-mix(in srgb,var(--ac
       <div class="stats-row g2" id="bwStats"></div>
       <div class="legend" id="bwLegend"></div>
       <div class="chart-box" id="bwChart"></div>
-      <p class="hint">Pésate por la mañana en condiciones parecidas. Lo que importa es la <b>media semanal</b> y su tendencia, no un pesaje suelto.</p>
+      <details class="fold"><summary>Cómo pesarte</summary><p class="hint" style="margin-top:2px">Pésate por la mañana en condiciones parecidas. Lo que importa es la <b>media semanal</b> y su tendencia, no un pesaje suelto.</p></details>
       <div class="mini-list" id="bwList"></div>
     </div>
 
@@ -1148,6 +1179,11 @@ function migrate(d){
     if(num(s.step)>0)o.step=num(s.step);
     if(num(s.rest)>=30)o.rest=Math.round(num(s.rest));
     if(num(s.bodyGoal)>0)o.bodyGoal=num(s.bodyGoal);
+    /* Días marcados en el calendario de una semana concreta (opcional, añadido el 18/11/2026) */
+    if(s.wk&&typeof s.wk==='object'&&isISO(s.wk.ws)&&Array.isArray(s.wk.days)){
+      const wd=[...new Set(s.wk.days.map(Number).filter(n=>Number.isInteger(n)&&n>=1&&n<=7))].sort((a,b)=>a-b);
+      o.wk={ws:weekStart(s.wk.ws),days:wd};
+    }
   }
   /* Plan ECN (opcional, añadido en nov. 2026; el formato sigue siendo v2): solo se guarda el avance; las sesiones se generan desde las fases del código */
   if(d.plan&&typeof d.plan==='object'){
@@ -1571,7 +1607,7 @@ const rp=(n,r,pct)=>Array.from({length:n},()=>pct?{r,pct}:{r});
 /* Cómo se hace cada bloque: formato (series seguidas, alternado, circuito) y ritmo de ejecución de cada fase */
 const FMT={
   seq:{t:'Series seguidas',d:'Haz todas las series de un ejercicio, con el descanso indicado, y después pasa al siguiente.'},
-  alt:{t:'Alternado (superserie con descanso)',d:'Una serie del primero, descanso, una del segundo, descanso… hasta completar las series. Como dos remeros que se turnan: mientras uno trabaja, el otro recupera.'},
+  alt:{t:'Superserie',d:'Una serie del primero, descanso corto, una del segundo, descanso… hasta completar las series. Como dos remeros que se turnan: mientras uno trabaja, el otro recupera. En la ECN lo llaman «alternado».'},
   circ:{t:'Circuito',d:'Un ejercicio tras otro con el descanso indicado entre cada uno; al acabar la vuelta, empiezas la siguiente.'}
 };
 const EXEC={
@@ -1580,8 +1616,8 @@ const EXEC={
   hyp:{t:'Controlado',d:'Bajada lenta (2–3 s), sin rebotes, y subida firme. Lo que hace crecer es la tensión en el músculo, no el bombeo.'},
   hyb:{t:'Controlado y potente',d:'Bajada controlada (2–3 s), sin rebotes, y subida firme y rápida sin perder la técnica.'}
 };
-const I_PYR='Pirámide: en cada serie sube un poco el peso y baja las repeticiones. Antes, calienta con 2–3 series ligeras (márcalas como A).';
-const I_WAVE='Peso fijo (un % de tu máximo) y series cortas: te sobrarán repeticiones a propósito (el «buffer»). Calienta antes con 2–3 series ligeras (márcalas como A).';
+const I_PYR='Pirámide: en cada serie sube un poco el peso y baja las repeticiones. Antes, 2–3 series de aproximación ligeras (márcalas como A).';
+const I_WAVE='Peso fijo (un % de tu máximo) y series cortas: te sobrarán repeticiones a propósito (el «buffer»). Antes, 2–3 series de aproximación ligeras (márcalas como A).';
 const PH_ORDER=['reac','ondas','hib','hip'];
 /* Variante de sesiones según los días por semana (f): 3 días en la Fase 1 = hoja ECN A/B/C;
    2 y 4 días = cuerpo completo A/B (con 4, dos veces cada una); 1 día = sesión única U. */
@@ -1590,13 +1626,13 @@ const ROT={abc:['A','B','C'],ab:['A','B'],u:['U']};
 const rotOf=(ph,f)=>ROT[varOf(ph,f)];
 const PH={
   reac:{n:1,name:'Reacondicionamiento',short:'Técnica',weeks:4,ex:'ctrl',
-    ses:{abc:{A:'Piernas, hombros y abdomen',B:'Espalda, femorales y bíceps',C:'Pecho, tríceps, gemelos y abdomen'},
-         ab:{A:'Sentadilla, press banca y dominadas',B:'Peso muerto, press militar y brazos'},
+    ses:{abc:{A:'Piernas y hombros',B:'Espalda, femorales y bíceps',C:'Pecho, tríceps y gemelos'},
+         ab:{A:'Sentadilla, press banca y dominadas',B:'Peso muerto, press militar y jalón'},
          u:{U:'Cuerpo completo (sesión única)'}},
     how:{obj:'Técnica y adaptación: volver a acostumbrar el cuerpo al peso.',
          ritmo:'Controlado, con tensión continua (bajada 2–3 s, sin rebotes ni pausas).',
          esf:'Empiezas lejos del fallo (unas 4 en recámara) y cada semana subes el peso y te acercas un poco más.',
-         fmt:'Series seguidas: todas las series de un ejercicio y luego el siguiente. Los básicos, en pirámide.'},
+         fmt:'Los dos básicos en pirámide y en series seguidas; al final, dos ejercicios en superserie.'},
     why:'Vuelve a acostumbrar músculos, tendones y articulaciones al peso y repasa la técnica de los básicos. Es como poner los cimientos de una casa: sin ellos, lo de arriba no aguanta.',
     wk:['Tensión continua y controlada, <b>lejos del fallo</b>: deja unas 4 repeticiones en recámara. Respeta los descansos; se trabaja con cierta fatiga.',
         'Sube el peso en todos los ejercicios (hay menos repeticiones que la semana pasada) y acércate un poco más al fallo: <b>deja unas 3 en recámara</b>. Técnica impecable.',
@@ -1606,34 +1642,30 @@ const PH={
     blocks:w=>{
       const PYR=[[15,12,10],[12,10,8],[10,8,6],[8,6,4]];
       const pyr=()=>({sets:PYR[w].map(r=>({r})),rest:[90,90,90,120][w]});
-      const c15=()=>({sets:rp([3,3,3,2][w],[15,15,12,10][w]),rest:[60,60,60,90][w]});
-      const c12=()=>({sets:rp([3,3,3,2][w],[12,12,10,8][w]),rest:[60,60,60,90][w]});
-      const curl=()=>({sets:[[12,10,8],[12,10,8],[10,8,6],[8,6,4]][w].map(r=>({r})),rest:[90,90,90,120][w]});
-      const calf=()=>({sets:[[20,17,15,12],[20,17,15,12],[17,15,12,10],[15,15,15]][w].map(r=>({r})),rest:90});
-      const core=()=>({sets:rp([4,4,4,3][w],'max'),rest:[[40,50],[40,50],60,90][w]});
-      const CORE={t:'Core',info:'Abdomen al final: cada serie hasta casi el fallo, con buena técnica.',items:[{key:'core',...core()}]};
+      // Superserie final: descanso corto entre los dos ejercicios (entre dos series del mismo pasan ≈2'10"–2'40")
+      const sr=[45,45,45,60][w];
+      const spyr=()=>({sets:PYR[w].map(r=>({r})),rest:sr});
+      const s15=()=>({sets:rp([3,3,3,2][w],[15,15,12,10][w]),rest:sr});
+      const s12=()=>({sets:rp([3,3,3,2][w],[12,12,10,8][w]),rest:sr});
+      const curl=()=>({sets:[[12,10,8],[12,10,8],[10,8,6],[8,6,4]][w].map(r=>({r})),rest:sr});
+      const calf=()=>({sets:[[20,17,15,12],[20,17,15,12],[17,15,12,10],[15,15,15]][w].map(r=>({r})),rest:sr});
+      const B1=k=>({t:'Básico principal',info:I_PYR,items:[{key:k,...pyr()}]});
       return {
         abc:{
-          A:[{t:'Básico principal + complementario',info:I_PYR+' Después, todas las series de prensa.',items:[{key:'sq',...pyr()},{key:'lunge',...c15()}]},
-             {t:'Segundo básico + complementario',info:'Press militar en pirámide; después, press con mancuernas.',items:[{key:'ohp',...pyr()},{key:'dbp',...c12()}]},CORE],
-          B:[{t:'Básico principal + complementario',info:I_PYR+' Después, curl femoral.',items:[{key:'dl',...pyr()},{key:'lcurl',...c15()}]},
-             {t:'Segundo básico + complementario',info:'Dominadas en pirámide con agarre supino (palmas hacia ti); después, jalón con agarre ancho.',items:[{key:'chin',...pyr()},{key:'lat',...c12()}]},
-             {t:'Bíceps',info:'Curl con barra, también en pirámide.',items:[{key:'curl',...curl()}]}],
-          C:[{t:'Básico principal + complementario',info:I_PYR+' Después, press inclinado o aperturas.',items:[{key:'bp',...pyr()},{key:'incl',...c15()}]},
-             {t:'Tríceps',info:'Fondos en pirámide. Si no llegas a las repeticiones con tu peso, haz las que puedas limpias.',items:[{key:'dips',...pyr()}]},
-             {t:'Gemelos y core',info:'Gemelos en recorrido completo; después, abdomen hasta casi el fallo.',items:[{key:'calf',...calf()},{key:'core',...core()}]}]},
+          A:[B1('sq'),{t:'Segundo básico',info:'Press militar, también en pirámide.',items:[{key:'ohp',...pyr()}]},
+             {t:'Prensa y press con mancuernas',alt:true,items:[{key:'lunge',...s15()},{key:'dbp',...s12()}]}],
+          B:[B1('dl'),{t:'Segundo básico',info:'Dominadas en pirámide con agarre supino (palmas hacia ti). Si no llegas a las repeticiones, haz las que puedas limpias.',items:[{key:'chin',...pyr()}]},
+             {t:'Curl femoral y curl con barra',alt:true,items:[{key:'lcurl',...s15()},{key:'curl',...curl()}]}],
+          C:[B1('bp'),{t:'Segundo básico',info:'Fondos en pirámide. Si no llegas a las repeticiones con tu peso, haz las que puedas limpias.',items:[{key:'dips',...pyr()}]},
+             {t:'Press inclinado y gemelos',alt:true,info:'Gemelos en recorrido completo, sin rebotes.',items:[{key:'incl',...s15()},{key:'calf',...calf()}]}]},
         ab:{
-          A:[{t:'Pierna · básico + complementario',info:I_PYR+' Después, curl femoral.',items:[{key:'sq',...pyr()},{key:'lcurl',...c15()}]},
-             {t:'Pecho · básico + complementario',info:'Press banca en pirámide; después, press inclinado o aperturas.',items:[{key:'bp',...pyr()},{key:'incl',...c15()}]},
-             {t:'Espalda',info:'Dominadas en pirámide con agarre supino. Si no llegas a las repeticiones, cambia a jalón.',items:[{key:'chin',...pyr()}]},CORE],
-          B:[{t:'Bisagra · básico + complementario',info:I_PYR+' Después, prensa.',items:[{key:'dl',...pyr()},{key:'lunge',...c15()}]},
-             {t:'Hombro y espalda',info:'Press militar en pirámide; después, jalón con agarre ancho.',items:[{key:'ohp',...pyr()},{key:'lat',...c12()}]},
-             {t:'Brazos',info:'Fondos y curl con barra, ambos en pirámide.',items:[{key:'dips',...pyr()},{key:'curl',...curl()}]},
-             {t:'Gemelos',info:'Recorrido completo, sin rebotes.',items:[{key:'calf',...calf()}]}]},
+          A:[B1('sq'),{t:'Segundo básico',info:'Press banca, también en pirámide.',items:[{key:'bp',...pyr()}]},
+             {t:'Dominadas y curl femoral',alt:true,info:'Dominadas en pirámide con agarre supino. Si no llegas a las repeticiones, cambia a jalón.',items:[{key:'chin',...spyr()},{key:'lcurl',...s15()}]}],
+          B:[B1('dl'),{t:'Segundo básico',info:'Press militar, también en pirámide.',items:[{key:'ohp',...pyr()}]},
+             {t:'Jalón y fondos',alt:true,items:[{key:'lat',...s12()},{key:'dips',...s12()}]}]},
         u:{
-          U:[{t:'Básico principal',info:I_PYR,items:[{key:'sq',...pyr()}]},
-             {t:'Empuje y tracción',info:'Press banca y dominadas, ambos en pirámide.',items:[{key:'bp',...pyr()},{key:'chin',...pyr()}]},
-             {t:'Bisagra y hombro',info:'Peso muerto y press militar con series rectas.',items:[{key:'dl',...c12()},{key:'ohp',...c12()}]},CORE]}
+          U:[B1('sq'),{t:'Segundo básico',info:'Press banca, también en pirámide.',items:[{key:'bp',...pyr()}]},
+             {t:'Dominadas y press militar',alt:true,info:'Dominadas en pirámide con agarre supino.',items:[{key:'chin',...spyr()},{key:'ohp',...s12()}]}]}
       };
     }},
   ondas:{n:2,name:'Especialización técnica',short:'Fuerza',weeks:7,ex:'expl',
@@ -1641,39 +1673,31 @@ const PH={
          u:{U:'Cuerpo completo (sesión única)'}},
     how:{obj:'Fuerza máxima en los cuatro básicos, con técnica perfecta: primero fuerte, luego grande.',
          ritmo:'Explosivo: bajada controlada, 1" de pausa abajo, subida lo más rápida posible, 1" arriba.',
-         esf:'Básicos con un peso fijo (75–85 % de tu máximo), 3–5 repeticiones y mucho margen: no se llega al fallo. Complementos, a 1–2 del fallo.',
-         fmt:'Básicos en series seguidas con 1\'–1\'30" de descanso (si una serie te ha costado más de lo normal, alarga hasta 2\'); complementos alternados (superserie con descanso) o en circuito.'},
+         esf:'Básicos con un peso fijo (75–85 % de tu máximo), 3–5 repeticiones y mucho margen: no se llega al fallo. Superserie, a 1–2 del fallo.',
+         fmt:'Básicos en series seguidas (6 como máximo) con 1\'–1\'30" de descanso (si una serie te ha costado más de lo normal, alarga hasta 2\'); al final, dos ejercicios en superserie.'},
     why:'Ganar fuerza en sentadilla, peso muerto, press banca y press militar: es la única fase con series de 3–5 repeticiones. La ECN la incluye porque ser más fuerte te deja mover más peso después, cuando buscas músculo («primero fuerte, luego grande»). El peso de los básicos es un porcentaje de tu máximo (1RM), que la app estima con tus registros. Hay dos «ondas» de 3 semanas (al 75 % y al 80 %) y una semana final de descarga técnica. Los básicos descansan poco (1\'–1\'30", como en la hoja de Amorosi) porque son series de 3–5 repeticiones con un peso que podrías mover unas 10 veces: cansan poco y se recuperan rápido. Los descansos largos (3\') se reservan para las series pesadas cerca del fallo de la fase híbrida. Después viene la fase híbrida.',
-    wk:['Onda 1 · <b>8×3 al 75 %</b>, 1\' de descanso. Peso moderado: podrías hacer muchas más repeticiones. Busca técnica perfecta y velocidad al subir. Complementos: deja 1–2 en recámara.',
-        '<b>7×4 al 75 %</b>: el mismo peso que la semana pasada, una repetición más por serie.',
+    wk:['Onda 1 · <b>6×3 al 75 %</b>, 1\' de descanso. Peso moderado: podrías hacer muchas más repeticiones. Busca técnica perfecta y velocidad al subir. Superserie: deja 1–2 en recámara.',
+        '<b>6×4 al 75 %</b>: el mismo peso que la semana pasada, una repetición más por serie.',
         '<b>6×5 al 75 %</b>: mismo peso, cinco repeticiones por serie.',
-        'Onda 2 · sube al <b>80 %</b> y vuelves a 3 repeticiones por serie (8×3).',
-        '<b>7×4 al 80 %</b>.',
+        'Onda 2 · sube al <b>80 %</b> y vuelves a 3 repeticiones por serie (6×3).',
+        '<b>6×4 al 80 %</b>.',
         '<b>6×5 al 80 %</b>: la semana más exigente del bloque.',
-        '<b>Descarga técnica</b> · 8×2 al 85 %: pocas repeticiones y máxima concentración. Los complementos bajan a 2×12 y a una sola vuelta. Sirve para recuperar y asimilar.'],
+        '<b>Descarga técnica</b> · 6×2 al 85 %: pocas repeticiones y máxima concentración. La superserie baja a 2×12. Sirve para recuperar y asimilar.'],
     blocks:w=>{
-      const WV=[[8,3,75],[7,4,75],[6,5,75],[8,3,80],[7,4,80],[6,5,80],[8,2,85]];
+      // Hoja de Amorosi: 8×3, 7×4, 6×5 (y 8×2 en la descarga). Elías no hace más de 6 series por ejercicio (18/11/2026): tope de 6.
+      const WV=[[6,3,75],[6,4,75],[6,5,75],[6,3,80],[6,4,80],[6,5,80],[6,2,85]];
       // Descansos de la hoja de Amorosi (1'00–1'30): las series son cortas y con mucho margen, así que cansan poco.
       // Los 3' se reservan para series pesadas cerca del fallo (básico principal de la fase híbrida).
-      const wave=half=>({sets:rp(half?Math.ceil(WV[w][0]/2):WV[w][0],WV[w][1],WV[w][2]),rest:[60,75,90,60,75,90,90][w],rir:null});
+      const wave=()=>({sets:rp(WV[w][0],WV[w][1],WV[w][2]),rest:[60,75,90,60,75,90,90][w],rir:null});
       const r1=w<6?1:2,r2=w<6?2:3;
       const alt=rir=>({sets:rp([4,3,4,3,4,3,2][w],[8,10,8,10,8,10,12][w]),rest:w<6?45:60,rir});
-      const circ=(r,r7,rest,rest7,rir)=>({sets:rp(w<6?3:1,w<6?r:r7),rest:w<6?rest:rest7,rir});
+      const B1=k=>({t:'Básico principal',info:I_WAVE,items:[{key:k,...wave()}]}),B2=(k,n)=>({t:'Segundo básico',info:'Mismo esquema que '+n+'.',items:[{key:k,...wave()}]});
       return {
         ab:{
-          A:[{t:'Básico principal',info:I_WAVE,items:[{key:'dl',...wave()}]},
-             {t:'Segundo básico',info:'Mismo esquema que el peso muerto.',items:[{key:'ohp',...wave()}]},
-             {t:'Remo y fondos',alt:true,items:[{key:'row',...alt(r2)},{key:'dips',...alt(r2)}]},
-             {t:'Gemelos, prensa y curl',alt:true,items:[{key:'calf',...circ(20,20,30,30,r1)},{key:'lunge',...circ(10,10,30,30,r2)},{key:'curl',...circ(8,10,30,30,r1)}]}],
-          B:[{t:'Básico principal',info:I_WAVE,items:[{key:'sq',...wave()}]},
-             {t:'Segundo básico',info:'Mismo esquema que la sentadilla.',items:[{key:'bp',...wave()}]},
-             {t:'Press francés y dominadas',alt:true,items:[{key:'skull',...alt(r1)},{key:'chin',...alt(r2)}]},
-             {t:'Abdomen y femoral',alt:true,items:[{key:'rev',...circ(20,20,45,60,r1)},{key:'lcurl',...circ(10,10,45,60,r1)}]}]},
+          A:[B1('dl'),B2('ohp','el peso muerto'),{t:'Remo y fondos',alt:true,items:[{key:'row',...alt(r2)},{key:'dips',...alt(r2)}]}],
+          B:[B1('sq'),B2('bp','la sentadilla'),{t:'Dominadas y curl femoral',alt:true,info:'Si no llegas a las dominadas, cambia a jalón.',items:[{key:'chin',...alt(r2)},{key:'lcurl',...alt(r1)}]}]},
         u:{
-          U:[{t:'Básico principal',info:I_WAVE,items:[{key:'sq',...wave()}]},
-             {t:'Segundo básico',info:'Mismo esquema que la sentadilla.',items:[{key:'bp',...wave()}]},
-             {t:'Peso muerto y press militar',alt:true,info:'Mismo esquema de ondas, con la mitad de series para que la sesión no se alargue.',items:[{key:'dl',...wave(true)},{key:'ohp',...wave(true)}]},
-             {t:'Dominadas y remo',alt:true,items:[{key:'chin',...alt(r2)},{key:'row',...alt(r2)}]}]}
+          U:[B1('sq'),B2('bp','la sentadilla'),{t:'Dominadas y press militar',alt:true,items:[{key:'chin',...alt(r2)},{key:'ohp',...alt(r2)}]}]}
       };
     }},
   /* Fase híbrida: el e-book de la ECN la sitúa entre la fuerza y la hipertrofia («convertir la fuerza en músculo»).
@@ -1683,8 +1707,8 @@ const PH={
          u:{U:'Cuerpo completo (sesión única)'}},
     how:{obj:'Puente entre fuerza e hipertrofia: convertir la fuerza que has ganado en músculo.',
          ritmo:'Bajada controlada (2–3 s), sin rebotes, y subida firme y rápida.',
-         esf:'Básico principal pesado, de 6 a 4 repeticiones, dejando 1–3 en recámara; segundo básico a 6–8; complementos a 8–12, cerca del fallo.',
-         fmt:'Básico principal en series seguidas con 3\' de descanso; el resto, en parejas alternadas (superserie con descanso).'},
+         esf:'Básico principal pesado, de 6 a 4 repeticiones, dejando 1–3 en recámara; segundo básico y tracción a 6–8; complemento a 8–12, cerca del fallo.',
+         fmt:'Los dos básicos en series seguidas (3\' de descanso en el principal y 2\' en el segundo); al final, tracción y complemento en superserie.'},
     why:'Es la «fase híbrida» de la ECN: después de ganar fuerza, empiezas a convertirla en músculo. El básico principal de cada sesión sigue siendo pesado (de 6 a 4 repeticiones, con 3\' de descanso) y el resto del trabajo ya va en el rango de hipertrofia (6–12). Como subir de marcha: la fuerza es el motor; aquí empiezas a usarla para construir.',
     wk:['Entrada: básico principal <b>4×6</b> dejando 3 en recámara y <b>3\' de descanso</b>; segundo básico 3×8; complementos 3×12.',
         '<b>4×6</b> con algo más de peso (2 en recámara). Segundo básico a 4 series.',
@@ -1695,25 +1719,17 @@ const PH={
     blocks:w=>{
       const F={s:[4,4,4,5,4,3],r:[6,6,5,5,4,5],rir:[3,2,2,1,1,4]};       // básico principal (fuerza)
       const H={s:[3,4,4,4,4,2],r:[8,8,7,6,6,8],rir:[3,2,2,1,1,4]};       // segundo básico y tracciones
-      const C={s:[3,3,3,4,4,2],r:[12,12,10,10,8,12],rir:[2,2,1,1,1,4]};  // complementos
-      const L={s:[3,3,3,4,4,2],r:[15,15,12,12,12,15],rir:[2,1,1,1,0,4]}; // gemelos y elevaciones laterales
+      const C={s:[3,3,3,4,4,2],r:[12,12,10,10,8,12],rir:[2,2,1,1,1,4]};  // complemento
       const it=(key,X,rest)=>({key,sets:rp(X.s[w],X.r[w]),rest,rir:X.rir[w]});
-      const I_F='Básico pesado: series seguidas con 3\' de descanso. Calienta antes con 2–3 series ligeras (márcalas como A).';
+      const I_F='Básico pesado: series seguidas con 3\' de descanso. Antes, 2–3 series de aproximación ligeras (márcalas como A).';
+      const B1=k=>({t:'Básico principal (fuerza)',info:I_F,items:[it(k,F,180)]});
+      const B2=k=>({t:'Segundo básico',info:'A 6–8 repeticiones, series seguidas con 2\' de descanso.',items:[it(k,H,120)]});
       return {
         ab:{
-          A:[{t:'Básico principal (fuerza)',info:I_F,items:[it('dl',F,180)]},
-             {t:'Segundo básico + antagonista',alt:true,info:'Press militar con remo, a 6–8 repeticiones.',items:[it('ohp',H,90),it('row',H,90)]},
-             {t:'Pierna y bíceps',alt:true,items:[it('lunge',C,75),it('curl',C,75)]},
-             {t:'Gemelos y hombro lateral',alt:true,items:[it('calf',L,45),it('lraise',L,45)]}],
-          B:[{t:'Básico principal (fuerza)',info:I_F,items:[it('sq',F,180)]},
-             {t:'Segundo básico + antagonista',alt:true,info:'Press banca con dominadas, a 6–8 repeticiones. Si no llegas a las dominadas, cambia a jalón.',items:[it('bp',H,90),it('chin',H,90)]},
-             {t:'Femoral y tríceps',alt:true,items:[it('lcurl',C,75),it('dips',C,75)]},
-             {t:'Tríceps y abdomen',alt:true,items:[it('skull',C,60),{key:'rev',sets:rp(C.s[w],'max'),rest:60,rir:null}]}]},
+          A:[B1('dl'),B2('ohp'),{t:'Remo y fondos',alt:true,items:[it('row',H,75),it('dips',C,75)]}],
+          B:[B1('sq'),B2('bp'),{t:'Dominadas y curl femoral',alt:true,info:'Si no llegas a las dominadas, cambia a jalón.',items:[it('chin',H,75),it('lcurl',C,75)]}]},
         u:{
-          U:[{t:'Básico principal (fuerza)',info:I_F,items:[it('sq',F,180)]},
-             {t:'Empuje y tracción',alt:true,items:[it('bp',H,90),it('row',H,90)]},
-             {t:'Peso muerto y press militar',alt:true,items:[it('dl',H,90),it('ohp',H,90)]},
-             {t:'Bíceps y tríceps',alt:true,items:[it('curl',C,60),it('skull',C,60)]}]}
+          U:[B1('sq'),B2('bp'),{t:'Dominadas y press militar',alt:true,items:[it('chin',H,75),it('ohp',H,75)]}]}
       };
     }},
   /* Fase 3: no hay hoja de la ECN en el proyecto. Misma plantilla por bloques y parejas alternadas de la ECN; series y
@@ -1723,9 +1739,9 @@ const PH={
          u:{U:'Cuerpo completo (sesión única)'}},
     how:{obj:'Hipertrofia: hacer crecer el músculo, que es lo que más se nota a la vista.',
          ritmo:'Controlado: bajada lenta (2–3 s), sin rebotes, y subida firme.',
-         esf:'Cada semana más cerca del fallo: básicos de 3 a 1 en recámara; complementos hasta el fallo técnico en la semana 5. La 6ª es de descarga.',
-         fmt:'Todo en parejas alternadas (superserie con descanso): 1\'30" entre ejercicios, así entre dos series del mismo básico pasan más de 3\'.'},
-    why:'Más series por músculo a la semana, básicos a 6–10 repeticiones y complementos a 8–15, cada semana un poco más cerca del fallo y con técnica impecable. Los kilos siguen subiendo: si cumples las repeticiones, la siguiente sugerencia sube el peso. Siguiendo con la casa: con los cimientos y la estructura hechos, aquí se levantan las paredes. Al acabar, vuelve la fase de fuerza con tus nuevos máximos.',
+         esf:'Cada semana más cerca del fallo: básicos de 3 a 1 en recámara; complemento hasta el fallo técnico en la semana 5. La 6ª es de descarga.',
+         fmt:'Los dos básicos en series seguidas con 2\' de descanso; al final, tracción y complemento en superserie.'},
+    why:'Básicos y tracciones a 6–10 repeticiones y complementos a 8–12, cada semana un poco más cerca del fallo y con técnica impecable. Los kilos siguen subiendo: si cumples las repeticiones, la siguiente sugerencia sube el peso. Siguiendo con la casa: con los cimientos y la estructura hechos, aquí se levantan las paredes. Al acabar, vuelve la fase de fuerza con tus nuevos máximos.',
     wk:['Semana de entrada: <b>3×10</b> en básicos y tracciones dejando <b>3 en recámara</b>; complementos 3×12 dejando 2. Ajusta pesos y técnica.',
         'Sube a <b>4 series</b> en básicos y tracciones (10 reps, <b>2 en recámara</b>). Complementos igual, un poco más cerca del fallo.',
         'Menos repeticiones (<b>8</b>) y más peso. Básicos con 2 en recámara; complementos con <b>1</b>.',
@@ -1734,26 +1750,17 @@ const PH={
         '<b>Descarga</b>: la mitad de series y lejos del fallo. Sirve para que el cuerpo asimile el bloque y empieces el siguiente más fuerte.'],
     blocks:w=>{
       const M={s:[3,4,4,4,4,2],r:[10,10,8,8,6,8],rir:[3,2,2,1,1,4]};      // básicos y tracciones
-      const C={s:[3,3,3,4,4,2],r:[12,12,10,10,8,12],rir:[2,2,1,1,0,4]};   // complementos
-      const H={s:[3,3,3,4,4,2],r:[15,15,12,12,12,15],rir:[2,1,1,0,0,4]};  // gemelos y elevaciones laterales
+      const C={s:[3,3,3,4,4,2],r:[12,12,10,10,8,12],rir:[2,2,1,1,0,4]};   // complemento
       const it=(key,X,rest)=>({key,sets:rp(X.s[w],X.r[w]),rest,rir:X.rir[w]});
-      const I_B='El básico, con las repeticiones en recámara que marca la semana. Calienta antes con 2–3 series ligeras (márcalas como A).';
-      const I_LAT='El hombro lateral da anchura y los básicos no lo trabajan bien.';
+      const I_B='Con las repeticiones en recámara que marca la semana; series seguidas con 2\' de descanso. Antes, 2–3 series de aproximación ligeras (márcalas como A).';
+      const B1=k=>({t:'Básico principal',info:I_B,items:[it(k,M,120)]});
+      const B2=k=>({t:'Segundo básico',info:'Series seguidas con 2\' de descanso.',items:[it(k,M,120)]});
       return {
         ab:{
-          A:[{t:'Básico principal + complementario',alt:true,info:I_B,items:[it('dl',M,90),it('lunge',C,90)]},
-             {t:'Segundo básico + antagonista',alt:true,info:'Empuje (press militar) con tracción (remo).',items:[it('ohp',M,90),it('row',M,90)]},
-             {t:'Fondos y bíceps',alt:true,items:[it('dips',C,60),it('curl',C,60)]},
-             {t:'Gemelos y hombro lateral',alt:true,info:I_LAT,items:[it('calf',H,45),it('lraise',H,45)]}],
-          B:[{t:'Básico principal + complementario',alt:true,info:I_B,items:[it('sq',M,90),it('lcurl',C,90)]},
-             {t:'Segundo básico + antagonista',alt:true,info:'Empuje (press banca) con tracción (dominadas). Si no llegas a las dominadas, cambia a jalón.',items:[it('bp',M,90),it('chin',M,90)]},
-             {t:'Tríceps y bíceps',alt:true,items:[it('skull',C,60),it('curl',C,60)]},
-             {t:'Abdomen y hombro lateral',alt:true,info:I_LAT,items:[{key:'rev',sets:rp(C.s[w],'max'),rest:45,rir:null},it('lraise',H,45)]}]},
+          A:[B1('dl'),B2('ohp'),{t:'Remo y fondos',alt:true,items:[it('row',M,75),it('dips',C,75)]}],
+          B:[B1('sq'),B2('bp'),{t:'Dominadas y curl femoral',alt:true,info:'Si no llegas a las dominadas, cambia a jalón.',items:[it('chin',M,75),it('lcurl',C,75)]}]},
         u:{
-          U:[{t:'Básico principal + complementario',alt:true,info:I_B,items:[it('sq',M,90),it('lcurl',C,90)]},
-             {t:'Segundo básico + antagonista',alt:true,items:[it('bp',M,90),it('row',M,90)]},
-             {t:'Peso muerto y press militar',alt:true,items:[it('dl',M,90),it('ohp',M,90)]},
-             {t:'Tríceps y bíceps',alt:true,items:[it('skull',C,60),it('curl',C,60)]}]}
+          U:[B1('sq'),B2('bp'),{t:'Dominadas y press militar',alt:true,items:[it('chin',M,75),it('ohp',M,75)]}]}
       };
     }}
 };
@@ -1764,12 +1771,12 @@ const GLOSARIO=[
   ['Repeticiones en recámara (RIR)','Las que te quedarían antes de no poder hacer ni una más con buena técnica. Es como la reserva del depósito: «deja 3» significa acabar la serie sabiendo que podrías hacer 3 más.'],
   ['Pirámide','Cada serie con algo más de peso y menos repeticiones (15 → 12 → 10). Como subir una escalera: cada peldaño cuesta un poco más.'],
   ['1RM y porcentajes','1RM es el peso máximo que podrías levantar una sola vez. La app lo estima con tus series, no hace falta probarlo. El 75 % son tres cuartas partes de ese máximo.'],
-  ['Alternado (superserie con descanso)','Dos ejercicios de músculos que no compiten se turnan: serie del primero, descanso, serie del segundo, descanso… Como dos remeros: mientras uno rema, el otro recupera. En las hojas de la ECN aparece como «alternándolo con».'],
+  ['Superserie (alternado)','Dos ejercicios de músculos que no compiten se turnan: serie del primero, descanso, serie del segundo, descanso… Como dos remeros: mientras uno rema, el otro recupera. En las hojas de la ECN aparece como «alternándolo con».'],
   ['Ritmo','Cómo bajas y subes el peso. «Controlado»: bajada lenta y sin rebotes, para que el músculo trabaje todo el recorrido. «Explosivo»: bajada controlada y subida lo más rápida posible, para entrenar la fuerza. Como en el coche: no es lo mismo frenar suave que arrancar a fondo.'],
   ['Semana del plan (microciclo)','El grupo de sesiones de una semana. Avanza cuando lo completas, no por el calendario: si un día no puedes ir, no se pierde nada.'],
   ['Fallo técnico','La última repetición que te sale con buena técnica. Si la siguiente te obligaría a hacer trampa (rebote, balanceo, recorrido corto), ahí paras.'],
   ['Ciclo del plan','El plan no termina: fuerza → híbrida → hipertrofia → otra vez fuerza con tus nuevos máximos. Como una escalera de caracol: das vueltas, pero cada vez más arriba.'],
-  ['Descanso en alternados','En una pareja alternada descansas entre ejercicios (por ejemplo 1\'30"), pero entre dos series del mismo ejercicio pasan más de 3\': la app te lo indica con «≈ entre tus series».'],
+  ['Descanso en la superserie','Descansas poco entre los dos ejercicios (por ejemplo 45"), pero entre dos series del mismo ejercicio pasan más de 2\': la app te lo indica con «≈ entre tus series».'],
   ['Descarga','Semana más suave para asimilar el trabajo. Como dejar reposar la masa del pan: sin ese reposo no sube.'],
   ['Aproximación (A)','Series de calentamiento con poco peso. Toca el número de la serie para marcarla: se guarda, pero no cuenta para tu progreso ni para calcular pesos.'],
   ['Pesos sugeridos','Salen de tu último registro de cada ejercicio. Si una serie te resulta demasiado fácil o difícil, apunta lo que hagas de verdad: la siguiente sugerencia se corrige sola.']
@@ -1782,7 +1789,9 @@ const DEF_DAYS={1:[3],2:[1,4],3:[1,3,5],4:[1,2,4,5]};
 const trainDays=()=>{const d=S.settings.days;return Array.isArray(d)&&d.length?d:(DEF_DAYS[S.settings.goal]||DEF_DAYS[3]);};
 const freqNow=()=>Math.min(4,Math.max(1,trainDays().length));
 const dowOf=iso=>{const g=parse(iso).getDay();return g===0?7:g;};
-const isTrainDay=iso=>trainDays().includes(dowOf(iso));
+/* Días de una semana concreta: los que marcaste en el calendario de esa semana (S.settings.wk) o, si no, los habituales */
+const weekDays=iso=>{const w=S.settings.wk;return w&&w.ws===weekStart(iso)?w.days:trainDays();};
+const isTrainDay=iso=>weekDays(iso).includes(dowOf(iso));
 const recF=x=>x.f||(x.s==='U'?1:3);   // registros de antes de esta versión: 3 días
 function buildSession(ph,mc,s,f){
   const P=PH[ph],w=Math.min(Math.max(1,mc),P.weeks)-1,v=varOf(ph,f||3),bl=(P.blocks(w)[v]||{})[s]||[];
@@ -1938,20 +1947,22 @@ function warmTxt(W){
   [[0.5,5],[0.75,3]].forEach(([p,n])=>{const x=r(W*p);if(x>=20&&x<W)a.push(fmtW(x)+' kg × '+n);});
   return a.join(' · ');
 }
-/* Texto completo del objetivo para la tarjeta «Última vez» */
+/* Objetivo para la tarjeta «Última vez»: lo esencial a la vista y las explicaciones plegadas */
 function planGoalHTML(it,sg,ses){
-  const tgt=setsTxt(it),rir=rirTxt(it),b=ses&&ses.blocks.find(x=>x.items.includes(it));
+  const tgt=setsTxt(it),rir=rirTxt(it),b=ses&&ses.blocks.find(x=>x.items.includes(it)),more=[];
+  const nm=x=>{const e=moveEx(x.key);return e?e.name:MOVES[x.key].def;};
   let h='<div class="goal"><div class="k">Plan de hoy</div><b>'+esc(tgt)+'</b>'+(rir?' · '+esc(rir):'')+' · '+(b&&b.fmt!=='seq'?fmtRest(it.rest)+' entre ejercicios':'descanso '+fmtRest(it.rest));
-  if(ses)h+='<div class="goal-tip"><b>Ritmo '+esc(EXEC[PH[ses.ph].ex].t.toLowerCase())+':</b> '+esc(EXEC[PH[ses.ph].ex].d)+'</div>';
+  if(ses)more.push('<b>Ritmo '+esc(EXEC[PH[ses.ph].ex].t.toLowerCase())+':</b> '+esc(EXEC[PH[ses.ph].ex].d));
   if(b&&b.fmt!=='seq'){
-    const others=b.items.filter(x=>x!==it).map(x=>{const e=moveEx(x.key);return e?e.name:MOVES[x.key].def;});
-    h+='<div class="goal-tip"><b>'+(b.fmt==='alt'?'Alternado':'Circuito')+':</b> '+(b.fmt==='alt'?'haz una serie, descansa '+fmtRest(it.rest)+', una serie de '+esc(others.join(' y '))+', descansa '+fmtRest(it.rest)+' y repite.':'cada vuelta: '+esc(b.items.map(x=>{const e=moveEx(x.key);return e?e.name:MOVES[x.key].def;}).join(' → '))+', con '+fmtRest(it.rest)+' entre ejercicios.')+' Entre dos series de este ejercicio pasan ≈'+fmtRest(effRest(it,b))+'.</div>';
+    const others=b.items.filter(x=>x!==it).map(nm);
+    more.push('<b>'+(b.fmt==='alt'?'Superserie':'Circuito')+':</b> '+(b.fmt==='alt'?'haz una serie, descansa '+fmtRest(it.rest)+', una serie de '+esc(others.join(' y '))+', descansa '+fmtRest(it.rest)+' y repite.':'cada vuelta: '+esc(b.items.map(nm).join(' → '))+', con '+fmtRest(it.rest)+' entre ejercicios.')+' Entre dos series de este ejercicio pasan ≈'+fmtRest(effRest(it,b))+'.');
   }
   const ws=sg.sets.filter(w=>w!=null),c=sg.cap;
   if(ws.length&&c){
     const why=it.sets[0].pct?Math.round(it.sets[0].pct)+' % de tu 1RM estimado ('+fmt1(c.e1)+' kg)':'según tu '+fmtW(c.src.s.w)+' kg × '+c.src.s.r+' del '+fmtShort(c.src.e.date);
-    h+='<div class="goal-tip">Peso sugerido: <b>'+esc(wTxt(sg).replace('≈ ',''))+'</b> · '+esc(why)+(c.f<1?'; un '+Math.round((1-c.f)*100)+' % menos porque fue hace '+plural(Math.round(c.gap/7),'semana'):'')+'.</div>';
-    if(MOVES[it.key].main){const wu=warmTxt(ws[0]);if(wu)h+='<div class="goal-tip">Calentamiento (márcalas como A): '+esc(wu)+'.</div>';}
+    h+='<div class="goal-tip">Peso sugerido: <b>'+esc(wTxt(sg).replace('≈ ',''))+'</b></div>';
+    more.push('<b>Por qué ese peso:</b> '+esc(why)+(c.f<1?'; un '+Math.round((1-c.f)*100)+' % menos porque fue hace '+plural(Math.round(c.gap/7),'semana'):'')+'.');
+    if(MOVES[it.key].main){const wu=warmTxt(ws[0]);if(wu)h+='<div class="goal-tip">Aproximación (márcalas como A): '+esc(wu)+'</div>';}
   }else if(sg.bw){
     h+='<div class="goal-tip">'+(sg.lastBW>0?'La última vez usaste <b>+'+fmtW(sg.lastBW)+' kg</b> de lastre. ':'Con tu peso corporal. ')+(it.sets[0].r==='max'?'Haz todas las repeticiones que puedas con técnica limpia.':'Si no llegas a las repeticiones, haz las que puedas limpias; si te sobran muchas, añade lastre.')+'</div>';
   }else if(it.sets[0].pct){
@@ -1961,6 +1972,7 @@ function planGoalHTML(it,sg,ses){
     const r0=it.sets[0].r;
     h+='<div class="goal-tip">Sin registros previos: elige un peso con el que hagas '+r0+' repeticiones '+(it.rir?'dejando unas '+it.rir+' en recámara':'con buena técnica')+(it.sets.length>1&&it.sets[1].r!==r0?' y súbelo un poco en cada serie':'')+'. Apunta lo que hagas y la próxima vez la app te dirá el peso.</div>';
   }
+  if(more.length)h+='<details class="fold"><summary>Ritmo, superserie y peso</summary>'+more.map(x=>'<div class="goal-tip">'+x+'</div>').join('')+'</details>';
   return h+'</div>';
 }
 function planItemNow(exId){
@@ -1988,7 +2000,7 @@ function sesFocus(ses){return sesMuscles(ses).map(c=>MUS_L[c]).join(' + ');}
 function sesTitle(ses){
   if(ses.v==='abc')return PH[ses.ph].ses.abc[ses.s];
   const n=ses.blocks.slice(0,2).map(bl=>{const e=moveEx(bl.items[0].key);return e?e.name:MOVES[bl.items[0].key].def;});
-  return (ses.v==='u'?'Sesión única: ':'')+n.map((x,i)=>i?x.charAt(0).toLowerCase()+x.slice(1):x).join(', ')+' y complementos';
+  return (ses.v==='u'?'Sesión única: ':'')+n.map((x,i)=>i?x.charAt(0).toLowerCase()+x.slice(1):x).join(' y ');
 }
 /* En un alternado o circuito, tiempo real entre dos series del mismo ejercicio (≈40" por cada serie del compañero) */
 const effRest=(it,b)=>b&&b.fmt!=='seq'?Math.round((b.items.length*it.rest+(b.items.length-1)*40)/10)*10:it.rest;
@@ -1999,20 +2011,48 @@ function freqTxt(ph,f){
   if(v==='abc')return '3 días: sesiones A, B y C, una de cada por semana, como en la hoja de la ECN.';
   return f===2?'2 días: sesiones A y B de cuerpo completo, una de cada por semana.':f===3?'3 días: A y B alternadas (A-B-A una semana, B-A-B la siguiente), como en la hoja de la ECN.':'4 días: A y B dos veces por semana (A-B-A-B).';
 }
-/* Tu semana: qué sesión y qué músculos tocan cada día de entreno (lo hecho, lo de hoy y lo que viene) */
-function weekListHTML(){
-  const today=todayISO(),ws=weekStart(today),days=trainDays(),P=S.plan,ahead=planAhead(8);let ai=0,h='';
+/* Tu semana tipo calendario: toca un día para marcar si entrenas (solo esa semana). Las sesiones se reparten en orden. */
+function weekStripHTML(){
+  const today=todayISO(),ws=weekStart(today),days=weekDays(today),P=S.plan,ahead=planAhead(8),nf=trainDays().length,leg={};let ai=0,h='';
   for(let i=0;i<7;i++){
-    const d=addDays(ws,i),tr=days.includes(i+1),rec=P.done.find(x=>x.d===d),lbl=DOW_C[i]+' '+parse(d).getDate();
-    if(!tr&&!rec)continue;
-    let q=null,st='';
-    if(rec){q={ph:rec.ph,mc:rec.mc,s:rec.s,f:recF(rec)};st='ok';}
-    else if(d>=today){q=ahead[ai++];st=d===today?'td':'nx';}
-    if(!q){h+='<div class="wl miss"><b>'+lbl+'</b><span>No entrenaste</span><i></i></div>';continue;}
-    const ses=buildSession(q.ph,q.mc,q.s,q.f);
-    h+='<div class="wl '+st+'"><b>'+lbl+'</b><span><em>Sesión '+q.s+'</em>'+esc(sesFocus(ses))+'</span><i>'+(st==='ok'?'✓':st==='td'?'hoy':'')+'</i></div>';
+    const d=addDays(ws,i),tr=days.includes(i+1),rec=P.done.find(x=>x.d===d),past=d<today,dn=parse(d).getDate();
+    let q=null,cls='wd',mk='',lab=DOW_L[i]+' '+dn;
+    if(rec){q={ph:rec.ph,mc:rec.mc,s:rec.s,f:recF(rec)};cls+=' ok';mk='✓'+rec.s;lab+=': sesión '+rec.s+' hecha';}
+    else if(tr&&!past){q=ahead[ai++]||null;cls+=' tr'+(d===today?'':' nx');mk=q?q.s:'•';lab+=': entrenas'+(q?', sesión '+q.s:'');}
+    else if(tr){cls+=' tr miss';mk='–';lab+=': no entrenaste';}
+    else lab+=': descanso';
+    if(d===today)cls+=' td';
+    if(q&&!leg[q.s])leg[q.s]=sesFocus(buildSession(q.ph,q.mc,q.s,q.f));
+    const inner='<b>'+DOW[i]+'</b><small>'+dn+'</small><span>'+mk+'</span>';
+    h+=rec?'<div class="'+cls+'" role="img" aria-label="'+esc(lab)+'">'+inner+'</div>'
+          :'<button type="button" class="'+cls+'" data-act="wk-day" data-d="'+d+'" aria-pressed="'+tr+'" aria-label="'+esc(lab)+'">'+inner+'</button>';
   }
-  return '<div class="wk-h"><span>Tu semana · entrenas '+days.map(n=>DOW_L[n-1]).join(', ').replace(/, ([^,]*)$/,' y $1')+'</span><button type="button" class="linkbtn" data-act="plan-days">Cambiar días</button></div><div class="wlist">'+h+'</div>';
+  const L=Object.keys(leg).sort();
+  return '<div class="wk-h"><span>Tu semana</span><span class="fq" role="group" aria-label="Días por semana"><em>días/semana</em>'+
+    [2,3,4].map(n=>'<button type="button" data-act="plan-freq" data-v="'+n+'" aria-pressed="'+(n===nf)+'">'+n+'</button>').join('')+'</span></div>'+
+    '<div class="wk-strip">'+h+'</div>'+
+    (L.length?'<div class="wk-leg">'+L.map(l=>'<span><b>'+l+'</b> '+esc(leg[l])+'</span>').join('')+'</div>':'')+
+    '<div class="wk-tip">Toca un día para marcar o quitar el entreno de esta semana.</div>';
+}
+/* Marcar o quitar un día de entreno solo en la semana de ese día (los días habituales no cambian) */
+function toggleWeekDay(iso){
+  const ws=weekStart(iso),cur=weekDays(iso),v=dowOf(iso),on=cur.includes(v);
+  if(!on&&cur.length>=4){toast('Máximo 4 días por semana');return;}
+  const nd=(on?cur.filter(x=>x!==v):cur.concat(v)).sort((a,b)=>a-b);
+  if(nd.join()===trainDays().join())delete S.settings.wk;else S.settings.wk={ws,days:nd};
+  if(!save())return;
+  renderLog();toast(iso===todayISO()?(on?'Hoy descansas':'Hoy entrenas'):cap(DOW_L[v-1])+(on?': descanso':': entrenas'),!on);
+}
+/* Días por semana del plan (2, 3 o 4): cambia tus días habituales. En la semana en curso, lo pasado y hoy se quedan como están */
+function setFreq(n){
+  if(!DEF_DAYS[n]||n===trainDays().length)return;
+  const t=todayISO(),td=dowOf(t),pat=DEF_DAYS[n],nd=weekDays(t).filter(d=>d<=td);
+  pat.forEach(d=>{if(d>td&&nd.length<n&&!nd.includes(d))nd.push(d);});
+  nd.sort((a,b)=>a-b);
+  S.settings.days=pat.slice();S.settings.goal=n;
+  if(nd.join()===pat.join())delete S.settings.wk;else S.settings.wk={ws:weekStart(t),days:nd};
+  if(!save())return;
+  renderLog();toast('Plan de '+n+' días por semana',true);
 }
 /* Tramos de fase registrados, en orden (para el mapa y «Tu recorrido») */
 function phaseRuns(){
@@ -2038,12 +2078,13 @@ function phaseMapHTML(cur){
 }
 function openPhases(){
   const today=todayISO(),pd=planDay(today),pos=planPos(),cur=pd&&!pd.end?pd.ph:pos.ph,curMc=pd&&!pd.end?pd.mc:pos.mc;
-  let h='<p class="hint" style="margin-top:10px">El plan va en ciclo: <b>Fuerza → Híbrida → Hipertrofia → Fuerza → …</b> La Técnica es para empezar o volver tras un parón. Puedes cambiar de fase cuando quieras: lo que ya has registrado no cambia y el cambio cuenta desde tu próxima sesión.</p>';
+  let h='<p class="hint" style="margin-top:10px">Ciclo: <b>Fuerza → Híbrida → Hipertrofia → Fuerza → …</b> La Técnica es para empezar o volver tras un parón.</p>'+
+    '<details class="fold"><summary>¿Puedo cambiar de fase?</summary><p class="hint" style="margin-top:2px">Cuando quieras: lo que ya has registrado no cambia y el cambio cuenta desde tu próxima sesión.</p></details>';
   PH_ORDER.forEach(k=>{
     const P=PH[k],isCur=k===cur;
     h+='<div class="phc'+(isCur?' cur':'')+'"><div class="phc-h"><span class="pb-n">'+P.n+'</span><div><b>'+esc(P.short)+'</b><small>'+esc(P.name)+' · '+P.weeks+' semanas'+'</small></div></div>'+
       '<div class="phc-t">'+esc(P.how.obj)+'</div>'+
-      '<div class="phc-m"><b>Ritmo:</b> '+esc(P.how.ritmo)+'</div><div class="phc-m"><b>Esfuerzo:</b> '+esc(P.how.esf)+'</div>'+
+      '<details class="fold"><summary>Ritmo y esfuerzo</summary><div class="phc-m"><b>Ritmo:</b> '+esc(P.how.ritmo)+'</div><div class="phc-m"><b>Esfuerzo:</b> '+esc(P.how.esf)+'</div></details>'+
       (isCur?'<div class="phc-now">Estás aquí · semana '+curMc+' de '+P.weeks+'</div><div class="row"><select id="phWk" aria-label="Semana">'+Array.from({length:P.weeks},(_,i)=>'<option value="'+(i+1)+'"'+(i+1===curMc?' selected':'')+'>Semana '+(i+1)+'</option>').join('')+'</select><button class="btn small" data-act="ph-goto-wk" data-ph="'+k+'">Ir a esa semana</button></div>'
             :'<button class="btn small" style="margin-top:10px" data-act="ph-goto" data-ph="'+k+'">Pasar a esta fase</button>')+'</div>';
   });
@@ -2065,6 +2106,7 @@ function planGoto(ph,mc){
 }
 function renderPlan(pd){
   const box=$('planBox');
+  homeForm();   // saca el formulario de la tarjeta antes de redibujarla (si no, se perdería lo que estás escribiendo)
   if(!S.plan){box.innerHTML=planStartHTML();return;}
   if(S.plan.off){box.innerHTML='<div class="card plan plan-mini"><div><b>Plan ECN en pausa</b><div class="hint" style="margin-top:2px">Tu historial se conserva.</div></div><button class="btn small" data-act="plan-on">Reanudar</button></div>';return;}
   if(!pd){box.innerHTML='';return;}
@@ -2074,23 +2116,13 @@ function renderPlan(pd){
     '<div class="plan-t">Sesión '+pd.s+'<span>'+esc(sesTitle(ses))+'</span></div>'+
     '<div class="mus-row" aria-label="Músculos de hoy">'+sesMuscles(ses).map(c=>'<span class="mus">'+MUS_L[c]+'</span>').join('')+'</div>'+
     '<div class="plan-s">Semana '+pd.mc+' de '+P.weeks+' · sesión '+Math.min(pd.rec?nDone:nDone+1,per)+' de '+per+(pd.rec?' · <span class="up">registrada</span>':'')+'</div>';
-  h+=phaseMapHTML(pd.ph)+'<div class="pm-wk"><span>Fase '+P.n+' · semana '+pd.mc+' de '+P.weeks+'</span><button type="button" class="linkbtn" data-act="plan-phases">Cambiar de fase</button></div>';
+  h+=phaseMapHTML(pd.ph);
   h+='<div class="plan-dots" aria-hidden="true">';
   for(let i=1;i<=P.weeks;i++)h+='<i class="'+(i<pd.mc?'ok':i===pd.mc?'cur':'')+'"'+(i===pd.mc?' style="--p:'+Math.round(100*Math.min(nDone,per)/per)+'%"':'')+'></i>';
-  h+='</div>'+weekListHTML();
+  h+='</div>'+weekStripHTML();
   if(!pd.rec){
-    const opts=swapOpts(pd.pos).filter(l=>l!==pd.s);
-    if(opts.length)h+='<div class="plan-swap"><span>¿Hoy prefieres otra sesión? Los días siguientes se reordenan solos.</span>'+opts.map(l=>'<button type="button" class="swap-o" data-act="plan-swap" data-s="'+l+'"><b>Sesión '+l+'</b><small>'+esc(sesFocus(buildSession(pd.ph,pd.mc,l,pd.f)))+'</small></button>').join('')+'</div>';
-  }
-
-  /* Días de entreno sin elegir todavía */
-  if(!Array.isArray(S.settings.days))h+='<div class="plan-note plan-info">¿Qué días vas a entrenar? El plan se organiza con ellos.<div class="acts"><button class="btn small" data-act="plan-setdays" data-v="1,3,5">Lunes, miércoles y viernes</button><button class="btn small" data-act="plan-days">Otros días</button></div></div>';
-  if(!pd.rec){
-    /* Día de descanso según tu calendario */
-    if(date===today&&!isTrainDay(date)){
-      let nd=null;for(let i=1;i<=7&&!nd;i++)if(isTrainDay(addDays(date,i)))nd=addDays(date,i);
-      h+='<div class="plan-note plan-info">Hoy ('+DOW_L[dowOf(date)-1]+') es día de descanso en tu calendario'+(nd?'; tu próxima sesión toca el <b>'+fmtLong(nd).toLowerCase()+'</b>':'')+'. Si entrenas hoy igualmente, esta es la sesión que toca.</div>';
-    }
+    /* Hoy no está marcado como día de entreno */
+    if(date===today&&!isTrainDay(date))h+='<div class="plan-note plan-info plan-row"><span>Hoy es día de descanso.</span><button class="btn small" data-act="wk-day" data-d="'+date+'">Hoy entreno</button></div>';
     /* Aviso tras una pausa larga */
     const last=S.plan.done[S.plan.done.length-1],d=derive(),lastAny=d.dates.filter(x=>x<date).pop();
     if(last){
@@ -2103,19 +2135,23 @@ function renderPlan(pd){
     }else if(lastAny&&daysBetween(lastAny,date)>21){
       h+='<div class="plan-note plan-info">Llevas <b>'+plural(Math.round(daysBetween(lastAny,date)/7),'semana')+'</b> sin entrenar. Los pesos sugeridos empiezan algo por debajo de tus últimos registros para que vuelvas sin riesgo.</div>';
     }
+    const opts=swapOpts(pd.pos).filter(l=>l!==pd.s);
+    if(opts.length)h+='<details class="fold"><summary>¿Otra sesión hoy?</summary><div class="plan-swap"><span>Los días siguientes se reordenan solos.</span>'+opts.map(l=>'<button type="button" class="swap-o" data-act="plan-swap" data-s="'+l+'"><b>Sesión '+l+'</b><small>'+esc(sesFocus(buildSession(pd.ph,pd.mc,l,pd.f)))+'</small></button>').join('')+'</div></details>';
   }
-  h+='<div class="plan-note"><b>Esta semana:</b> '+P.wk[ses.w]+'</div>';
-  /* Cómo se entrena: visible siempre, no escondido */
-  h+='<div class="plan-how"><div class="plan-how-h">Cómo se entrena esta fase</div>'+
-    [['Objetivo',P.how.obj],['Ritmo',P.how.ritmo],['Esfuerzo',P.how.esf],['Formato',P.how.fmt],['Tu semana',freqTxt(pd.ph,pd.f)]].map(([k,v])=>'<div class="ph-r"><b>'+k+'</b><span>'+esc(v)+'</span></div>').join('')+'</div>';
+  /* Cómo se entrena: plegado por defecto */
+  h+='<details class="fold"><summary>Cómo se entrena esta semana</summary><div class="plan-how">'+
+    '<div class="ph-r"><b>Esta semana</b><span>'+P.wk[ses.w]+'</span></div>'+
+    [['Objetivo',P.how.obj],['Ritmo',P.how.ritmo],['Esfuerzo',P.how.esf],['Formato',P.how.fmt],['Tus días',freqTxt(pd.ph,pd.f)]].map(([k,v])=>'<div class="ph-r"><b>'+k+'</b><span>'+esc(v)+'</span></div>').join('')+'</div></details>';
+  /* Calentamiento: cardio antes de las pesas */
+  h+='<div class="pb pb0"><div class="pb-h"><span class="pb-n">0</span>Calentamiento<span class="pb-r">5–10\' de cardio en cinta</span></div></div>';
   ses.blocks.forEach((b,bi)=>{
-    const F=FMT[b.fmt],E=EXEC[P.ex];
+    const F=FMT[b.fmt],E=EXEC[P.ex],info=(b.fmt!=='seq'?F.d+' ':'')+(b.info||'');
+    const chips='<span class="mchip'+(b.fmt!=='seq'?' hl':'')+'">'+(b.fmt==='alt'?'⇄ ':b.fmt==='circ'?'↻ ':'')+esc(F.t)+'</span><span class="mchip">Ritmo: '+esc(E.t.toLowerCase())+'</span>';
     h+='<div class="pb"><div class="pb-h"><span class="pb-n">'+(bi+1)+'</span>'+esc(b.t)+'</div>'+
-      '<div class="pb-m"><span class="mchip'+(b.fmt!=='seq'?' hl':'')+'">'+(b.fmt==='alt'?'⇄ ':b.fmt==='circ'?'↻ ':'')+esc(F.t)+'</span><span class="mchip">Ritmo: '+esc(E.t.toLowerCase())+'</span></div>'+
-      '<div class="pb-i">'+(b.fmt!=='seq'?esc(F.d)+' ':'')+esc(b.info||'')+'</div>';
+      (info.trim()?'<details class="pb-d"><summary class="pb-m" aria-label="Cómo se hace este bloque">'+chips+'</summary><div class="pb-i">'+esc(info.trim())+'</div></details>':'<div class="pb-m">'+chips+'</div>');
     b.items.forEach(it=>{
       const sg=suggest(it,date),ex=sg.ex,nm=ex?ex.name:MOVES[it.key].def,dn=done[it.key];
-      h+='<div class="pi-row"><button type="button" class="pi'+(ex&&ex.id===cur?' on':'')+(dn?' done':'')+'" data-act="plan-item" data-key="'+it.key+'">'+
+      h+='<div class="pi-row" data-key="'+it.key+'"><button type="button" class="pi'+(ex&&ex.id===cur?' on':'')+(dn?' done':'')+'" data-act="plan-item" data-key="'+it.key+'">'+
         '<span class="mfig">'+figSVG(figFor(ex||{name:nm,cat:MOVES[it.key].cats[0]}))+'</span>'+
         '<span class="pi-m"><span class="pi-n">'+esc(nm)+'</span>'+
         '<span class="pi-t">'+esc(setsTxt(it))+(rirTxt(it)?' · '+esc(rirTxt(it)):'')+' · '+restTxt(it,b)+'</span>'+
@@ -2129,19 +2165,38 @@ function renderPlan(pd){
     const nx=planPos();
     h+='<div class="plan-ok"><b>✓ Sesión completada.</b> '+'Próxima: <b>sesión '+nextLetter(nx)+'</b> · '+(nx.ph!==pd.ph||nx.mc<pd.mc?'Fase '+PH[nx.ph].n+' ('+esc(PH[nx.ph].name)+'), ':'')+'semana '+nx.mc+'.'+' Descansa y come bien: la recuperación también es entrenamiento.</div>';
   }
-  const pos=pd.rec?planPos():pd.pos;
   h+='<details class="pd"><summary>¿Para qué sirve esta fase?</summary><div class="pd-b"><p>'+esc(P.why)+'</p><p><b>Ritmo:</b> '+esc(EXEC[P.ex].d)+'</p></div></details>'+
     '<details class="pd"><summary>Conceptos clave</summary><div class="pd-b">'+GLOSARIO.map(g=>'<p><b>'+esc(g[0])+':</b> '+esc(g[1])+'</p>').join('')+'</div></details>'+
     '<button type="button" class="btn plan-phbtn" data-act="plan-phases">Fases del plan · cambiar de etapa · tu recorrido</button></div>';
   box.innerHTML=h;
+}
+/* ---------- Formulario del ejercicio: se abre debajo del ejercicio del plan que tocas (como un acordeón) ---------- */
+let formOpen=true;
+function homeForm(){
+  const f=$('logForm'),home=$('formHome');
+  if(home.nextElementSibling!==f)home.after(f);
+  f.classList.remove('inl');
+}
+function placeForm(scroll){
+  const f=$('logForm'),pd=planDay($('date').value),exId=$('exSel').value;
+  document.querySelectorAll('#planBox .pi-row.open').forEach(r=>r.classList.remove('open'));
+  if(!(pd&&!pd.end)){homeForm();f.hidden=false;return;}   // sin plan: como siempre
+  const pi=exId?planItemNow(exId):null,row=pi?document.querySelector('#planBox .pi-row[data-key="'+pi.it.key+'"]'):null;
+  let tgt=null;
+  if(row){
+    if(formOpen){row.classList.add('open');row.after(f);f.classList.add('inl');f.hidden=false;tgt=row;}
+    else{homeForm();f.hidden=true;}
+  }else{homeForm();f.hidden=!exId;if(exId)tgt=f;}   // ejercicio fuera del plan: debajo del selector
+  if(scroll&&tgt){const t=tgt.getBoundingClientRect().top;if(t<0||t>window.innerHeight*0.4)tgt.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'});}
 }
 /* Elegir un ejercicio del plan: lo selecciona en el formulario con las series del plan ya preparadas */
 function selectPlanItem(key,scroll){
   const ex=ensureMoveEx(key);
   if(!save())return;
   if(editingId){editingId=null;$('note').value='';$('saveBtn').textContent='Guardar ejercicio';$('cancelEdit').style.display='none';}
+  formOpen=true;
   renderExSelect();$('exSel').value=ex.id;onExChange();
-  if(scroll)$('exFig').scrollIntoView({behavior:'smooth',block:'start'});
+  if(scroll)placeForm(true);
 }
 function fillPlanSets(pi){
   const sg=suggest(pi.it,$('date').value);
@@ -2214,7 +2269,8 @@ function renderLog(){
   const pd=planDay(date),pm=!!(pd&&!pd.end);
   renderPlan(pd);
   ['typeSeg','typeHint','quick'].forEach(id=>{$(id).style.display=pm?'none':'';});
-  if(pm){renderExSelect();renderLast();renderDay();return;}
+  $('exLbl').textContent=pm?'Otro ejercicio (fuera del plan)':'Ejercicio';
+  if(pm){renderExSelect();renderLast();renderDay();placeForm();return;}
   const a=activeType();
   $('typeSeg').innerHTML=TYPE_ORDER.map(t=>'<button type="button" data-act="type" data-t="'+t+'" aria-pressed="'+(a.t===t)+'" style="--c:'+TYPES[t].c+'"><span class="sw"></span>'+TYPES[t].short+'</button>').join('');
   const n=weekCount(date),g=S.settings.goal;
@@ -2225,6 +2281,7 @@ function renderLog(){
   renderQuick();
   renderLast();
   renderDay();
+  placeForm();
 }
 function renderExSelect(){
   const sel=$('exSel'),prev=sel.value;
@@ -2264,7 +2321,7 @@ function renderLast(){
   const fid=figFor(ex);
   const pi=planItemNow(exId),pg=pi?planGoalHTML(pi.it,suggest(pi.it,$('date').value),pi.ses):'';
   $('exFig').innerHTML='<div class="fg">'+figSVG(fid,true)+'</div><div><div class="nm">'+esc(ex.name)+'</div><div class="mu">'+esc(FIG[fid].mu||CATS[ex.cat].label)+'</div>'+
-    (pi?'<div class="tipx">'+esc(MOVES[pi.it.key].tip)+'</div>':'')+
+    (pi?'<details class="fold"><summary>Técnica</summary><div class="tipx">'+esc(MOVES[pi.it.key].tip)+'</div></details>':'')+
     '<button type="button" class="linkbtn" data-act="fig-pick" data-ex="'+esc(ex.id)+'">Cambiar imagen</button>'+(pi?' · <button type="button" class="linkbtn" data-act="plan-alt" data-key="'+pi.it.key+'">Cambiar ejercicio</button>':'')+'</div>';
   const [rmin,rmax]=exRange(ex);
   if(!prev){
@@ -2356,13 +2413,14 @@ function onExChange(){
   renderLast();renderQuick();
   const exId=$('exSel').value;
   document.querySelectorAll('#planBox .pi').forEach(b=>{const e=moveEx(b.dataset.key);b.classList.toggle('on',!!e&&e.id===exId);});
-  if(editingId)return;
-  const pi=planItemNow(exId);
-  if(pi){fillPlanSets(pi);return;}
-  const list=exId?(derive().byEx[exId]||[]).filter(e=>e.date<=$('date').value):[];
-  fillSets(list.length?list[list.length-1].sets:null);
+  if(!editingId){
+    const pi=planItemNow(exId);
+    if(pi)fillPlanSets(pi);
+    else{const list=exId?(derive().byEx[exId]||[]).filter(e=>e.date<=$('date').value):[];fillSets(list.length?list[list.length-1].sets:null);}
+  }
+  placeForm();
 }
-$('exSel').addEventListener('change',onExChange);
+$('exSel').addEventListener('change',()=>{formOpen=true;onExChange();placeForm(true);});
 $('date').addEventListener('change',()=>{if(!$('date').value)$('date').value=todayISO();renderLog();});
 $('addSet').addEventListener('click',()=>{
   const last=[...$('sets').children].slice(-1)[0];
@@ -2448,6 +2506,7 @@ function startEdit(id){
   fillSets(e.sets);$('note').value=e.note||'';
   $('saveBtn').textContent='Guardar cambios';$('cancelEdit').style.display='';
   renderLast();renderQuick();
+  formOpen=true;placeForm(true);
 }
 function delEntry(id){
   if(!confirm('¿Borrar este registro?'))return;
@@ -2758,7 +2817,7 @@ function renderCatBars(R){
       (v>0?'<div class="fill" style="width:'+P(v)+';--c:'+catColor(c)+'"></div>':'')+'</div><span class="val">'+fmt1(v)+' <small>/sem</small></span></div>';
   });
   h+='<div class="hb-scale"><span></span><div>'+[0,4,8,12].filter(v=>v<=max).map(v=>'<span style="left:'+P(v)+'">'+v+'</span>').join('')+'</div><span></span></div>';
-  h+='<p class="hint">Referencia de la Escuela de Culturismo Natural: con <b>4–8 series efectivas</b> por músculo y semana ya hay un estímulo muy bueno, y 8–12 se acerca al máximo. Cuenta cada ejercicio en su grupo principal; las series de aproximación no cuentan.</p>';
+  h+='<details class="fold"><summary>Cómo leerlo</summary><p class="hint" style="margin-top:2px">Referencia de la Escuela de Culturismo Natural: con <b>4–8 series efectivas</b> por músculo y semana ya hay un estímulo muy bueno, y 8–12 se acerca al máximo. Cuenta cada ejercicio en su grupo principal; las series de aproximación no cuentan.</p></details>';
   $('catBars').innerHTML=h;
 }
 
@@ -2858,7 +2917,9 @@ $('exSaveBtn').addEventListener('click',()=>{
 /* Vuelve a «Hoy» con el ejercicio recién creado elegido, sin tocar las series ya escritas si no tenía historial */
 function backToLog(id){
   showTab('log');$('exSel').value=id;
+  formOpen=true;
   if(editingId||!derive().byEx[id]){renderLast();renderQuick();}else onExChange();
+  placeForm(true);
 }
 $('exName').addEventListener('keydown',e=>{if(e.key==='Enter')$('exSaveBtn').click();});
 /* Tema de color: se guarda solo en este móvil */
@@ -2885,7 +2946,7 @@ function renderSettings(){
   const s=S.settings;
   const seg=(act,opts,cur,f)=>'<div class="seg sm">'+opts.map(v=>'<button type="button" data-act="'+act+'" data-v="'+v+'" aria-pressed="'+(cur===v)+'">'+f(v)+'</button>').join('')+'</div>';
   $('settings').innerHTML=
-    '<div class="set-line" style="flex-direction:column;align-items:stretch"><div><div class="t">Días de entrenamiento</div><div class="hint">De 1 a 4. Es tu objetivo semanal y el plan adapta las sesiones a esos días. Un cambio se aplica desde la próxima semana del plan.</div></div>'+
+    '<div class="set-line" style="flex-direction:column;align-items:stretch"><div><div class="t">Días de entrenamiento habituales</div><div class="hint">De 1 a 4. Es tu objetivo semanal y el plan adapta las sesiones a ese número. Los de una semana concreta se cambian en Hoy, tocando el calendario.</div></div>'+
       '<div class="dow-row" role="group" aria-label="Días de entrenamiento">'+DOW.map((l,i)=>'<button type="button" data-act="st-day" data-v="'+(i+1)+'" aria-pressed="'+trainDays().includes(i+1)+'" aria-label="'+DOW_L[i]+'">'+l+'</button>').join('')+'</div></div>'+
     '<div class="set-line"><div><div class="t">Rango de reps por defecto</div><div class="hint">Doble progresión: al llegar al máximo en todas las series, sube peso</div></div><div class="rr"><input type="text" inputmode="numeric" id="stRmin" value="'+s.rmin+'" aria-label="Repeticiones mínimas">–<input type="text" inputmode="numeric" id="stRmax" value="'+s.rmax+'" aria-label="Repeticiones máximas"></div></div>'+
     '<div class="set-line"><div><div class="t">Incremento de peso</div><div class="hint">Cuánto subir al superar el rango</div></div>'+seg('st-step',[1,2,2.5,5],s.step,v=>fmtW(v))+'</div>'+
@@ -2971,7 +3032,14 @@ document.addEventListener('click',ev=>{
     case 'ph-close':closePhases();break;
     case 'ph-goto':{const k=el.dataset.ph;if(PH[k]&&confirm('¿Pasar a la Fase '+PH[k].n+' ('+PH[k].short+') desde la semana 1? Lo que ya has registrado no cambia.'))planGoto(k,1);break;}
     case 'ph-goto-wk':planGoto(el.dataset.ph,+$('phWk').value);break;
-    case 'plan-item':selectPlanItem(el.dataset.key,true);break;
+    case 'plan-item':{   // acordeón: toca para abrir debajo; vuelve a tocar para cerrar (lo escrito se conserva)
+      const key=el.dataset.key,row=el.closest('.pi-row'),e=moveEx(key);
+      if(row&&row.classList.contains('open')){formOpen=false;placeForm();break;}
+      if(e&&$('exSel').value===e.id){formOpen=true;placeForm(true);break;}
+      selectPlanItem(key,true);break;
+    }
+    case 'wk-day':toggleWeekDay(el.dataset.d);break;
+    case 'plan-freq':setFreq(+el.dataset.v);break;
     case 'plan-swap':S.plan.sw={d:$('date').value,s:el.dataset.s};save();resetForm();toast('Hoy toca la sesión '+el.dataset.s);break;
     case 'plan-goto':planGoto(el.dataset.ph,+el.dataset.mc);break;
     case 'plan-alt':openAlt(el.dataset.key);break;
@@ -3004,16 +3072,9 @@ document.addEventListener('click',ev=>{
       if(!on&&cur.length>=4){toast('Máximo 4 días: el método es breve e intenso');break;}
       if(on&&cur.length===1){toast('Elige al menos un día');break;}
       const nd=(on?cur.filter(x=>x!==v):cur.concat(v)).sort((a,b)=>a-b);
-      S.settings.days=nd;S.settings.goal=nd.length;
+      S.settings.days=nd;S.settings.goal=nd.length;delete S.settings.wk;   // tus días habituales valen también para esta semana
       if(!save())return;
       renderSettings();toast('Entrenas '+nd.length+(nd.length===1?' día':' días')+': '+nd.map(n=>DOW[n-1]).join(' · '));break;
-    }
-    case 'plan-days':$('gearBtn').click();break;
-    case 'plan-setdays':{
-      const nd=el.dataset.v.split(',').map(Number);
-      S.settings.days=nd;S.settings.goal=nd.length;
-      if(!save())return;
-      renderLog();toast('Entrenas '+nd.map(n=>DOW_L[n-1]).join(', ').replace(/, ([^,]*)$/,' y $1'));break;
     }
     case 'st-step':S.settings.step=+el.dataset.v;save();renderSettings();break;
   }
