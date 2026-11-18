@@ -386,6 +386,17 @@ details.card[open]>summary::after{content:"−"}
 .pi-alt{flex:0 0 58px;border-radius:12px;border:1px solid var(--line);background:var(--inset);color:var(--accent-text);font:inherit;font-size:11px;font-weight:800;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px}
 .pi-alt span{font-size:17px;line-height:1}
 #altBody [hidden]{display:none!important}
+.alt-slot{margin-top:10px;font-size:14px;color:var(--muted);display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.ecn-tag{font-size:12px;font-weight:800;padding:2px 9px;border-radius:999px;border:1px solid var(--line);background:var(--inset);color:var(--text)}
+.ecn-tag.e-bas{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 18%,var(--inset))}
+.ecn-tag.e-ais{border-style:dashed}
+details.alt-grp{margin-top:6px;border-top:1px solid var(--line)}
+details.alt-grp>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:14px 0 6px}
+details.alt-grp>summary::-webkit-details-marker{display:none}
+details.alt-grp>summary::before{content:"▸";font-size:13px}
+details.alt-grp[open]>summary::before{content:"▾"}
+details.alt-grp>summary span{margin-left:auto;font-variant-numeric:tabular-nums;font-weight:800;color:var(--dim)}
+.alt-sub{font-size:12px;font-weight:700;color:var(--text);margin:10px 0 0}
 .pmap{display:flex;align-items:stretch;gap:4px;margin-top:12px}
 .pmap>i{align-self:center;color:var(--dim);font-style:normal;font-size:11px;flex:0 0 auto}
 .pmap>i.pm-loop{font-size:16px;color:var(--accent-text)}
@@ -1778,6 +1789,7 @@ const GLOSARIO=[
   ['Ciclo del plan','El plan no termina: fuerza → híbrida → hipertrofia → otra vez fuerza con tus nuevos máximos. Como una escalera de caracol: das vueltas, pero cada vez más arriba.'],
   ['Descanso en la superserie','Descansas poco entre los dos ejercicios (por ejemplo 45"), pero entre dos series del mismo ejercicio pasan más de 2\': la app te lo indica con «≈ entre tus series».'],
   ['Descarga','Semana más suave para asimilar el trabajo. Como dejar reposar la masa del pan: sin ese reposo no sube.'],
+  ['Básico, complementario y aislamiento','Así clasifica la ECN los ejercicios. Básicos: sentadilla, peso muerto, press banca, press militar, dominadas, remo y fondos, con peso libre; son el eje del método. Complementarios: multiarticulares de apoyo que trabajan lo mismo con otra herramienta o ángulo (prensa, zancadas, press con mancuernas o inclinado, jalón, remo en polea, máquinas y multipower). Aislamiento: un solo músculo, para lo que los básicos no cubren bien (curl, gemelos, elevaciones laterales, femoral en máquina, tríceps, core). Al cambiar un ejercicio, lo ideal es elegir otro de la misma especie (misma clase y mismo músculo): como en fútbol, si sale un delantero, entra otro delantero.'],
   ['Aproximación (A)','Series de calentamiento con poco peso. Toca el número de la serie para marcarla: se guarda, pero no cuenta para tu progreso ni para calcular pesos.'],
   ['Pesos sugeridos','Salen de tu último registro de cada ejercicio. Si una serie te resulta demasiado fácil o difícil, apunta lo que hagas de verdad: la siguiente sugerencia se corrige sola.']
 ];
@@ -2228,26 +2240,70 @@ function nextPending(date){
   const ses=buildSession(pd.ph,pd.mc,pd.s,pd.f),done=planDoneMap(ses,date);
   return ses.items.find(it=>!done[it.key])||null;
 }
+/* Clasificación de la ECN: básicos (el eje del método), complementarios (multiarticulares de apoyo) y aislamiento (un solo músculo).
+   Se deduce del nombre; no se guarda nada. «Misma especie» = misma clase y mismo grupo muscular que el hueco del plan. */
+const ECN={bas:{t:'Básico',p:'Básicos',o:'Otros básicos'},comp:{t:'Complementario',p:'Complementarios',o:'Otros complementarios'},ais:{t:'Aislamiento',p:'Aislamiento',o:'Otros ejercicios de aislamiento'}};
+/* Dentro de un mismo músculo, patrones que no son intercambiables: tirar desde arriba o hacia ti, y fondos frente a press */
+const PAT={vert:'tracción vertical',hor:'tracción horizontal',dip:'fondos'};
+function patOf(name,cat){
+  const n=String(name).toLowerCase();
+  if(/fondos|\bdips?\b/.test(n))return 'dip';
+  if(cat!=='espalda')return null;
+  return /dominad|jal[oó]n|pull ?(down|up)|chin|pulley/.test(n)?'vert':/\bremo\b|\brow\b/.test(n)?'hor':null;
+}
+const ECN_ORDER=['bas','comp','ais'];
+function ecnOf(name,cat){
+  const n=String(name).toLowerCase(),has=rx=>rx.test(n);
+  if(has(/curl|extensi[oó]n|franc[eé]s|skull|tr[ií]ceps (en )?polea|patada|elevaci[oó]n(es)? (laterale?s?|frontale?s?|de gemel|de piernas)|lateral raise|p[aá]jaro|face ?pull|apertura|cruces?\b|contractora|pec ?deck|pull ?over|gemel|calf|pantorr|s[oó]leo|crunch|plancha|rueda abdominal|dragon|hollow|pallof|dead ?bug|encogimiento|sissy|glute ?ham|\bghr\b|n[oó]rdic|abducci|aducci|lumbar|hiperextensi/))return 'ais';
+  const maq=has(/multipower|smith|m[aá]quina|asistid/);
+  if(has(/sentadilla|squat/))return maq||has(/hack|goblet|b[uú]lgara|split|zancada/)?'comp':'bas';
+  if(has(/peso muerto|deadlift/))return has(/rumano|r[ií]gid|piernas|una pierna/)?'comp':'bas';
+  if(has(/press (de )?banca|bench/))return maq||has(/inclin|declin|estrech|cerrad|mancuern/)?'comp':'bas';
+  if(has(/press militar|overhead/))return maq||has(/mancuern/)?'comp':'bas';
+  if(has(/dominad|pull ?up|chin ?up/))return maq?'comp':'bas';
+  if(has(/fondos|\bdips?\b/))return maq||has(/banco/)?'comp':'bas';
+  if(has(/\bremo\b|\brow\b/))return maq||has(/polea|al ment[oó]n/)?'comp':'bas';
+  return ['core','gemelo','biceps','triceps'].includes(cat)?'ais':'comp';
+}
+const catOfName=n=>{let c=null;Object.keys(CATALOG).some(k=>{const f=CATALOG[k].find(x=>x[0].toLowerCase()===String(n).toLowerCase());if(f)c=k;return !!f;});return c;};
 function openAlt(key){
-  const m=MOVES[key],cur=moveEx(key),seen=new Set();
-  const btn=(attrs,name,fig,sub,on)=>'<button type="button" class="alt-o" data-act="alt-pick" data-key="'+key+'" '+attrs+' data-q="'+esc(name.toLowerCase())+'" aria-pressed="'+on+'"><span class="mfig">'+figSVG(fig)+'</span><span>'+esc(name)+(sub?'<small>'+esc(sub)+'</small>':'')+'</span></button>';
-  let h='<p class="hint" style="margin-top:8px">Elige con qué ejercicio haces este hueco del plan; puedes poner cualquiera. Se recordará para las próximas sesiones y puedes volver a cambiarlo cuando quieras.</p>'+
+  const m=MOVES[key],cur=moveEx(key),slotT=ecnOf(m.def,m.cats[0]),slotP=patOf(m.def,m.cats[0]),cats=m.cats;
+  const mlabel=c=>(CATS[c]?CATS[c].label:c).toLowerCase();
+  /* Todos los candidatos: tus ejercicios, los recomendados para el hueco y el catálogo (sin repetir) */
+  const pool=[],seen=new Set(),add=o=>{const k=o.name.toLowerCase();if(seen.has(k))return;seen.add(k);o.ecn=ecnOf(o.name,o.cat);pool.push(o);};
+  S.exercises.forEach(e=>add({name:e.name,id:e.id,cat:e.cat,mine:true,ex:e}));
+  m.alts.forEach((n,i)=>add({name:n,cat:catOfName(n)||m.cats[0],rec:i}));
+  CAT_ORDER.forEach(c=>(CATALOG[c]||[]).forEach(x=>add({name:x[0],cat:c})));
+  Object.keys(MOVES).forEach(k=>MOVES[k].alts.forEach(n=>add({name:n,cat:catOfName(n)||MOVES[k].cats[0]})));   // variantes de los otros huecos
+  pool.forEach(o=>{if(o.rec==null){const i=m.alts.findIndex(n=>n.toLowerCase()===o.name.toLowerCase());if(i>=0)o.rec=i;}});
+  const ord=(x,y)=>(x.rec!=null?x.rec:99)-(y.rec!=null?y.rec:99)||(y.mine?1:0)-(x.mine?1:0)||CAT_ORDER.indexOf(x.cat)-CAT_ORDER.indexOf(y.cat)||x.name.localeCompare(y.name,'es');
+  const btn=(o,sub)=>'<button type="button" class="alt-o" data-act="alt-pick" data-key="'+key+'" '+(o.mine?'data-id="'+esc(o.id)+'"':'data-name="'+esc(o.name)+'"')+' data-q="'+esc(o.name.toLowerCase())+'" aria-pressed="'+(!!cur&&!!o.mine&&cur.id===o.id)+'">'+
+    '<span class="mfig">'+figSVG(figFor(o.ex||{name:o.name,cat:o.cat}))+'</span><span>'+esc(o.name)+'<small>'+sub+'</small></span></button>';
+  const tail=o=>(o.mine?'tuyo':'se añadirá a tus ejercicios')+(o.rec!=null?' · recomendado':'');
+  const same=pool.filter(o=>o.ecn===slotT&&cats.includes(o.cat)&&patOf(o.name,o.cat)===slotP).sort(ord);
+  const sp=ECN[slotT].p.toLowerCase()+' de '+esc(cats.map(mlabel).join(' / '))+(slotP&&slotP!=='dip'?' ('+PAT[slotP]+')':'');
+  const recOther=pool.filter(o=>o.rec!=null&&!same.includes(o)).sort(ord);
+  let h='<div class="alt-slot">Este hueco: <span class="ecn-tag e-'+slotT+'">'+ECN[slotT].t+'</span> de '+esc(cats.map(mlabel).join(' / '))+(slotP&&slotP!=='dip'?' · '+PAT[slotP]:'')+'</div>'+
     '<input type="text" id="altQ" placeholder="Buscar ejercicio (p. ej. sentadilla)" aria-label="Buscar ejercicio" autocomplete="off" style="margin-top:8px">'+
-    '<div class="cat-h">Recomendados para este hueco</div><div class="alt-list">';
-  m.alts.forEach(n=>{const e=exByName(n);if(e)seen.add(e.id);seen.add(n.toLowerCase());h+=btn('data-name="'+esc(n)+'"',n,figFor(e||{name:n,cat:m.cats[0]}),e?'':'Se añadirá a tus ejercicios',!!cur&&!!e&&cur.id===e.id);});
-  h+='</div>';
-  const mine=S.exercises.filter(e=>!seen.has(e.id)).sort((x,y)=>CAT_ORDER.indexOf(x.cat)-CAT_ORDER.indexOf(y.cat)||byName(x,y));
-  mine.forEach(e=>seen.add(e.name.toLowerCase()));
-  if(mine.length)h+='<div class="cat-h">Todos tus ejercicios</div><div class="alt-list">'+mine.map(e=>btn('data-id="'+esc(e.id)+'"',e.name,figFor(e),CATS[e.cat]?CATS[e.cat].label:'',!!cur&&cur.id===e.id)).join('')+'</div>';
-  const cat=[];CAT_ORDER.forEach(c=>(CATALOG[c]||[]).forEach(x=>{if(!seen.has(x[0].toLowerCase()))cat.push([x[0],c]);}));
-  if(cat.length)h+='<div class="cat-h">Más ejercicios del catálogo</div><div class="alt-list">'+cat.map(([n,c])=>btn('data-name="'+esc(n)+'"',n,figFor({name:n,cat:c}),CATS[c].label+' · se añadirá a tus ejercicios',false)).join('')+'</div>';
+    '<details class="fold"><summary>Básico, complementario y aislamiento</summary><p class="hint" style="margin-top:2px">'+esc(GLOSARIO.find(g=>g[0].startsWith('Básico'))[1])+' Lo que elijas se recordará para las próximas sesiones y puedes volver a cambiarlo cuando quieras.</p></details>';
+  h+='<div class="alt-sec" data-def="1"><div class="cat-h">Misma especie · '+sp+'</div><div class="alt-list">'+same.map(o=>btn(o,tail(o))).join('')+'</div></div>';
+  if(recOther.length)h+='<div class="alt-sec" data-def="1"><div class="cat-h">Otras opciones recomendadas</div><div class="alt-list">'+recOther.map(o=>btn(o,ECN[o.ecn].t+' · '+esc(mlabel(o.cat))+' · '+tail(o))).join('')+'</div></div>';
+  /* El resto, por clase (la del hueco primero) y dentro de cada una por grupo muscular, plegado */
+  const used=new Set(same.concat(recOther));
+  [slotT].concat(ECN_ORDER.filter(t=>t!==slotT)).forEach(t=>{
+    const list=pool.filter(o=>o.ecn===t&&!used.has(o));if(!list.length)return;
+    let body='';
+    CAT_ORDER.forEach(c=>{const g=list.filter(o=>o.cat===c).sort(ord);if(g.length)body+='<div class="alt-sub">'+esc(CATS[c]?CATS[c].label:c)+'</div><div class="alt-list">'+g.map(o=>btn(o,tail(o))).join('')+'</div>';});
+    h+='<details class="alt-sec alt-grp"><summary>'+(t===slotT?ECN[t].o:ECN[t].p)+' <span>'+list.length+'</span></summary>'+body+'</details>';
+  });
   h+='<p class="hint" id="altNone" hidden>No hay ningún ejercicio con ese nombre. Puedes crearlo en la pestaña Ejercicios.</p>';
   $('altTitle').textContent='Cambiar: '+(cur?cur.name:m.def);
   $('altBody').innerHTML=h;$('altSheet').hidden=false;document.body.style.overflow='hidden';
   $('altQ').addEventListener('input',()=>{
     const q=$('altQ').value.trim().toLowerCase();let n=0;
     $('altBody').querySelectorAll('.alt-o').forEach(o=>{const ok=!q||o.dataset.q.includes(q);o.hidden=!ok;if(ok)n++;});
-    $('altBody').querySelectorAll('.alt-list').forEach(l=>{const any=[...l.children].some(c=>!c.hidden);l.hidden=!any;if(l.previousElementSibling&&l.previousElementSibling.classList.contains('cat-h'))l.previousElementSibling.hidden=!any;});
+    $('altBody').querySelectorAll('.alt-list').forEach(l=>{const any=[...l.children].some(c=>!c.hidden);l.hidden=!any;const p=l.previousElementSibling;if(p&&p.classList.contains('alt-sub'))p.hidden=!any;});
+    $('altBody').querySelectorAll('.alt-sec').forEach(sec=>{const any=[...sec.querySelectorAll('.alt-o')].some(c=>!c.hidden);sec.hidden=!any;if(sec.tagName==='DETAILS')sec.open=!!q&&any;});
     $('altNone').hidden=n>0;
   });
 }
