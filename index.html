@@ -537,6 +537,32 @@ details.pb-d .pb-i{margin-top:6px}
 .x-add{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:8px;min-height:46px;border-radius:12px;border:1.5px dashed var(--accent);background:transparent;color:var(--accent-text);font:inherit;font-weight:800;cursor:pointer}
 .add-new{margin-top:10px;padding:10px;border-radius:12px;border:1px dashed var(--accent);background:var(--panel)}
 .add-new .hint{margin-top:6px}
+/* Superseries: se apuntan juntas, serie a serie (20/11/2026) */
+#ssForm{margin-top:4px;padding:10px 10px 12px;border-radius:4px 4px var(--r3) var(--r3);border:1.5px solid var(--accent);background:var(--inset);animation:fadeIn .18s ease-out}
+#ssForm:not(.inl){margin-top:12px;border-radius:var(--r2)}
+.ss-hd{display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:800;font-size:16px;color:var(--accent-text)}
+.ss-r{margin-top:10px;padding:8px 10px 10px;border-radius:var(--r3);background:var(--panel);border-left:4px solid var(--accent)}
+.ss-n{font-size:13px;font-weight:800;color:var(--accent-text)}
+.ss-x{display:grid;grid-template-columns:minmax(0,1fr) 78px 66px;gap:8px;align-items:center;margin-top:8px}
+.ss-x .nm{font-size:14px;font-weight:700;line-height:1.2;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.ss-x input{width:100%;min-width:0;padding:10px 4px;text-align:center;font-size:19px;font-weight:800;font-variant-numeric:tabular-nums;border-radius:12px;border:1px solid var(--line);background:var(--surface);outline:none}
+.ss-x input::placeholder{color:var(--dim);font-weight:700}
+.ss-x input:focus{border-color:var(--accent)}
+.ss-x .prv{grid-column:1/4;font-size:12px;color:var(--muted);margin-top:-4px;font-variant-numeric:tabular-nums}
+.ss-x .prv:empty{display:none}
+.ss-x .prv b{color:var(--text)}
+.ss-cols{margin-top:6px;font-size:12px;color:var(--muted);text-align:center}
+.ss-acts{display:flex;gap:8px;margin-top:10px}
+.btn[disabled]{opacity:.45;cursor:default}
+.pi-row.ss-on .pi{border-color:var(--accent)}
+.ss-pack{margin-top:10px;padding:8px 10px 10px;border-radius:var(--r2);border:1.5px dashed color-mix(in srgb,var(--accent) 60%,transparent)}
+.ss-pack .ss-h{font-size:13px;font-weight:800;color:var(--accent-text)}
+.ss-pack>.item{margin-top:8px}
+.add-go{position:sticky;bottom:calc(-18px - env(safe-area-inset-bottom));margin-top:12px;padding:10px 0 calc(18px + env(safe-area-inset-bottom));background:var(--bg);box-shadow:0 -10px 16px -8px var(--shadow)}
+.add-go .btn.primary{margin-top:6px}
+.add-sel{font-size:13px;color:var(--muted)}
+.add-sel b{color:var(--text)}
+.alt-o[data-n]::after{content:attr(data-n);margin-left:auto;flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:inline-flex;align-items:center;justify-content:center;font-weight:900;font-size:14px}
 .plan-ok{margin-top:14px;padding:12px;border-radius:12px;border:1px solid var(--good);color:var(--text);font-size:14px}
 .plan-ok b{color:var(--good)}
 details.pd{margin-top:10px;border-top:1px solid var(--line);padding-top:4px}
@@ -626,6 +652,7 @@ nav button.active{color:var(--accent-text);background:var(--sel);font-weight:800
     <button class="btn primary" id="saveBtn">Guardar ejercicio</button>
     <button class="btn ghost" style="width:100%;margin-top:6px;display:none" id="cancelEdit">Cancelar edición</button>
     </div>
+    <div id="ssForm" hidden></div>
 
     <h2 id="dayTitle">Registrado hoy</h2>
     <div id="daySum"></div>
@@ -1216,7 +1243,9 @@ function migrate(d){
       out.exercises.push({id:exId,name:'Ejercicio recuperado '+exId.slice(0,4),cat:'otro',group:CATS.otro.label});
     }
     let id=okId(e.id)?String(e.id):uid();if(seenE.has(id))id=uid();seenE.add(id);
-    out.entries.push({id,date:e.date,exId,sets,note:e.note?String(e.note):'',created:+e.created||parse(e.date).getTime()});
+    const en={id,date:e.date,exId,sets,note:e.note?String(e.note):'',created:+e.created||parse(e.date).getTime()};
+    if(e.ss!=null&&okId(e.ss))en.ss=String(e.ss);   // registros de una misma superserie (opcional, 20/11/2026)
+    out.entries.push(en);
   });
   if(Array.isArray(d.body)){
     const m={};d.body.forEach(b=>{if(b&&isISO(b.date)&&num(b.kg)>0)m[b.date]=num(b.kg);});
@@ -1576,6 +1605,17 @@ function entryHTML(e){
     '<div class="kv">'+(reps?'<span>Total <b>'+eff(e.sets).reduce((a,s)=>a+s.r,0)+repU(ex)+'</b></span><span>Máx. <b>'+Math.max(...eff(e.sets).map(s=>s.r))+repU(ex)+'</b></span>':'<span>Carga total <b>'+fmtKg(m.vol)+' kg</b></span><span>1RM est. <b>'+fmt1(m.e1)+' kg</b></span>')+'<span>Series efectivas <b>'+m.n+'</b></span></div>'+
     (e.note?'<div class="note">'+esc(e.note)+'</div>':'')+
     '<div class="acts"><button class="btn small" data-act="edit">Editar</button><button class="btn small danger" data-act="del">Borrar</button></div></div>';
+}
+/* Lista de registros de un día: los de una misma superserie van juntos, como un paquete */
+function entriesHTML(list){
+  const out=[],seen=new Set();
+  list.forEach(e=>{
+    if(seen.has(e.id))return;
+    const g=e.ss?list.filter(x=>x.ss===e.ss):[e];
+    g.forEach(x=>seen.add(x.id));
+    out.push(g.length>1?'<div class="ss-pack"><div class="ss-h">⇄ Superserie</div>'+g.map(entryHTML).join('')+'</div>':entryHTML(e));
+  });
+  return out.join('');
 }
 function daySummary(list){
   const d=derive();let sets=0,vol=0;
@@ -2201,7 +2241,7 @@ function planGoto(ph,mc){
 }
 function renderPlan(pd){
   const box=$('planBox');
-  homeForm();   // saca el formulario de la tarjeta antes de redibujarla (si no, se perdería lo que estás escribiendo)
+  homeForm();homeSS();   // saca los formularios de la tarjeta antes de redibujarla (si no, se perdería lo que estás escribiendo)
   if(!S.plan){box.innerHTML=planStartHTML();return;}
   if(S.plan.off){box.innerHTML='<div class="card plan plan-mini"><div><b>Plan ECN en pausa</b><div class="hint" style="margin-top:2px">Tu historial se conserva.</div></div><button class="btn small" data-act="plan-on">Reanudar</button></div>';return;}
   if(!pd){box.innerHTML='';return;}
@@ -2247,7 +2287,7 @@ function renderPlan(pd){
     const F=FMT[b.fmt],E=EXEC[b.ex||P.ex],info=(b.fmt!=='seq'?F.d+' ':'')+(b.info||'');
     const chips='<span class="mchip'+(b.fmt!=='seq'?' hl':'')+'">'+(b.fmt==='alt'?'⇄ ':b.fmt==='circ'?'↻ ':'')+esc(F.t)+'</span><span class="mchip">Ritmo: '+esc(E.t.toLowerCase())+'</span>';
     const auto=b.items.every(it=>done[it.key]),on=auto||bk.includes(bi+1);
-    h+='<div class="pb'+(on?' ok':'')+'"><div class="pb-h"><span class="pb-n">'+(bi+1)+'</span>'+esc(b.t)+ck(bi+1,on,auto,b.t)+'</div>'+
+    h+='<div class="pb'+(on?' ok':'')+'" data-bi="'+bi+'"><div class="pb-h"><span class="pb-n">'+(bi+1)+'</span>'+esc(b.t)+ck(bi+1,on,auto,b.t)+'</div>'+
       (info.trim()?'<details class="pb-d"><summary class="pb-m" aria-label="Cómo se hace este bloque">'+chips+'</summary><div class="pb-i">'+esc(info.trim())+'</div></details>':'<div class="pb-m">'+chips+'</div>');
     b.items.forEach(it=>{
       const sg=suggest(it,date),ex=sg.ex,nm=ex?ex.name:MOVES[it.key].def,dn=done[it.key];
@@ -2261,14 +2301,17 @@ function renderPlan(pd){
     });
     h+='</div>';
   });
-  /* Fuera del plan: lo que ya has añadido hoy y el botón para añadir otro sin salir de aquí */
-  const xm={};(derive().byDate[date]||[]).forEach(e=>{if(!itemFor(ses,e.exId))(xm[e.exId]=xm[e.exId]||[]).push(e);});
-  const xr=(id,dn)=>{const ex=exById(id);return '<div class="pi-row" data-x="'+esc(id)+'"><button type="button" class="pi'+(id===cur?' on':'')+(dn?' done':'')+'" data-act="x-item" data-ex="'+esc(id)+'">'+
+  /* Fuera del plan: lo que ya has añadido hoy (las superseries, juntas) y el botón para añadir otro sin salir de aquí */
+  const xl=(derive().byDate[date]||[]).filter(e=>!itemFor(ses,e.exId)&&exById(e.exId)),xg=[],xk={};
+  xl.forEach(e=>{const g=e.ss&&xl.filter(x=>x.ss===e.ss).length>1?'s'+e.ss:'x'+e.exId;if(!xk[g]){xk[g]={ss:g[0]==='s',m:{}};xg.push(g);}(xk[g].m[e.exId]=xk[g].m[e.exId]||[]).push(e);});
+  const xr=(id,dn,pend)=>{const ex=exById(id);return '<div class="pi-row" '+(pend?'data-xs':'data-x')+'="'+esc(id)+'"><button type="button" class="pi'+(!pend&&id===cur?' on':'')+(dn?' done':'')+'" data-act="'+(pend?'ss-toggle':'x-item')+'" data-ex="'+esc(id)+'">'+
     '<span class="mfig">'+figSVG(figFor(ex))+'</span><span class="pi-m"><span class="pi-n">'+esc(ex.name)+'</span>'+
-    '<span class="'+(dn?'pi-w':'pi-t')+'">'+esc(dn?doneTxt(dn,ex):'Fuera del plan')+'</span></span><span class="pi-c" aria-label="'+(dn?'Hecho':'Pendiente')+'">'+(dn?'✓':'')+'</span></button></div>';};
-  h+='<div class="pbx">'+Object.keys(xm).filter(exById).map(id=>xr(id,xm[id])).join('')+
-    (cur&&exById(cur)&&!xm[cur]&&!itemFor(ses,cur)?xr(cur,null):'')+
-    '<button type="button" class="x-add" data-act="add-open">+ Añadir ejercicio</button></div>';
+    '<span class="'+(dn?'pi-w':'pi-t')+'">'+esc(dn?doneTxt(dn,ex):pend?'Superserie · fuera del plan':'Fuera del plan')+'</span></span><span class="pi-c" aria-label="'+(dn?'Hecho':'Pendiente')+'">'+(dn?'✓':'')+'</span></button></div>';};
+  let xh='';
+  xg.forEach(g=>{const G=xk[g],rows=Object.keys(G.m).map(id=>xr(id,G.m[id])).join('');xh+=G.ss?'<div class="ss-pack"><div class="ss-h">⇄ Superserie</div>'+rows+'</div>':rows;});
+  if(SS&&SS.bi==null)xh+='<div class="ss-pack"><div class="ss-h">⇄ Superserie</div>'+SS.ids.filter(exById).map(id=>xr(id,null,true)).join('')+'</div>';
+  else if(cur&&exById(cur)&&!xl.some(e=>e.exId===cur)&&!itemFor(ses,cur))xh+=xr(cur,null);
+  h+='<div class="pbx">'+xh+'<button type="button" class="x-add" data-act="add-open">+ Añadir ejercicio</button></div>';
   if(pd.rec&&ses.blocks.every((b,bi)=>bk.includes(bi+1)||b.items.every(it=>done[it.key]))){
     const nx=planPos();
     h+='<div class="plan-ok"><b>✓ Sesión completada.</b> '+'Próxima: <b>sesión '+nextLetter(nx)+'</b> · '+(nx.ph!==pd.ph||nx.mc<pd.mc?'Fase '+PH[nx.ph].n+' ('+esc(PH[nx.ph].name)+'), ':'')+'semana '+nx.mc+'.'+' Descansa y come bien: la recuperación también es entrenamiento.</div>';
@@ -2285,9 +2328,23 @@ function homeForm(){
   if(home.nextElementSibling!==f)home.after(f);
   f.classList.remove('inl');
 }
+function homeSS(){const g=$('ssForm'),f=$('logForm');if(f.nextElementSibling!==g)f.after(g);g.classList.remove('inl');}
 function placeForm(scroll){
-  const f=$('logForm'),pd=planDay($('date').value),exId=$('exSel').value;
-  document.querySelectorAll('#planBox .pi-row.open').forEach(r=>r.classList.remove('open'));
+  const f=$('logForm'),g=$('ssForm'),pd=planDay($('date').value),exId=$('exSel').value;
+  document.querySelectorAll('#planBox .pi-row.open,#planBox .pi-row.ss-on').forEach(r=>r.classList.remove('open','ss-on'));
+  /* Superserie: un solo formulario debajo de sus ejercicios */
+  if(SS){
+    homeForm();f.hidden=true;
+    const rows=pd&&!pd.end?(SS.bi!=null?[...document.querySelectorAll('#planBox .pb[data-bi="'+SS.bi+'"] .pi-row')]:[...document.querySelectorAll('#planBox .pi-row[data-xs]')]):[];
+    const last=rows[rows.length-1];
+    if(!rows.length){homeSS();g.hidden=false;}
+    else if(formOpen){rows.forEach(r=>r.classList.add('ss-on'));last.classList.add('open');last.after(g);g.classList.add('inl');g.hidden=false;}
+    else{homeSS();g.hidden=true;}
+    const tgt=rows[0]||g;
+    if(scroll&&!g.hidden){const t=tgt.getBoundingClientRect().top;if(t<0||t>window.innerHeight*0.4)tgt.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'});}
+    return;
+  }
+  homeSS();g.hidden=true;
   if(!(pd&&!pd.end)){homeForm();f.hidden=false;return;}   // sin plan: como siempre
   const pi=exId?planItemNow(exId):null;
   const row=pi?document.querySelector('#planBox .pi-row[data-key="'+pi.it.key+'"]'):exId?document.querySelector('#planBox .pi-row[data-x="'+exId+'"]'):null;
@@ -2300,6 +2357,8 @@ function placeForm(scroll){
 }
 /* Elegir un ejercicio del plan: lo selecciona en el formulario con las series del plan ya preparadas */
 function selectPlanItem(key,scroll){
+  const sb=ssBlockOf(key);if(sb!=null){openPlanSS(sb,scroll);return;}
+  SS=null;
   const ex=ensureMoveEx(key);
   if(!save())return;
   if(editingId){editingId=null;$('note').value='';$('saveBtn').textContent='Guardar ejercicio';$('cancelEdit').style.display='none';}
@@ -2363,6 +2422,78 @@ function nextPending(date){
     const it=ses.blocks[bi].items.find(x=>!done[x.key]);if(it)return it;
   }
   return null;
+}
+/* ---------- Superseries: se apuntan juntas, serie a serie (20/11/2026) ----------
+   Cada serie lleva el peso y las repeticiones de cada ejercicio (2 o 3). En los datos, cada ejercicio guarda su registro
+   como siempre (gráficas, récords y pesos sugeridos no cambian) y los de una misma superserie comparten «ss». */
+let SS=null;   // {ids:[exId…], bi: bloque del plan, o null si es una superserie tuya fuera del plan}
+function ssSes(){const pd=planDay($('date').value);return pd&&!pd.end?buildSession(pd.ph,pd.mc,pd.s,pd.f):null;}
+function ssBlockOf(key){const ses=ssSes();if(!ses)return null;const bi=ses.blocks.findIndex(b=>b.fmt!=='seq'&&b.items.some(it=>it.key===key));return bi>=0?bi:null;}
+function ssItems(){
+  const date=$('date').value,ses=ssSes(),d=derive();
+  return SS.ids.map(id=>{
+    const ex=exById(id);if(!ex)return null;
+    const it=ses&&SS.bi!=null?itemFor(ses,id):null,prev=(d.byEx[id]||[]).filter(e=>e.date<=date),ref=prev[prev.length-1]||null;
+    return {ex,it,sg:it?suggest(it,date):null,R:ref?eff(ref.sets).filter(x=>!x.wu):[]};
+  }).filter(Boolean);
+}
+function ssRowHTML(i,L){
+  return '<div class="ss-r"><div class="ss-n">Serie '+(i+1)+'</div>'+L.map((o,k)=>{
+    const t=o.it?o.it.sets[Math.min(i,o.it.sets.length-1)]:null,rs=o.R[i];
+    let w=null;
+    if(o.it)w=o.sg.bw?(o.sg.lastBW>0?o.sg.lastBW:null):o.sg.sets[Math.min(i,o.sg.sets.length-1)];
+    else if(o.R.length){const x=o.R[Math.min(i,o.R.length-1)];w=x.w>0?x.w:null;}
+    const ph=t?(t.r==='max'?'máx':String(t.r)):(rs?String(rs.r):'reps');
+    return '<div class="ss-x" data-k="'+k+'"><span class="nm">'+esc(o.ex.name)+'</span>'+
+      '<input type="text" inputmode="decimal" placeholder="kg" value="'+(w!=null?fmtW(w):'')+'" aria-label="Peso de '+esc(o.ex.name)+', serie '+(i+1)+'">'+
+      '<input type="text" inputmode="numeric" placeholder="'+esc(ph)+'" aria-label="Repeticiones de '+esc(o.ex.name)+', serie '+(i+1)+'">'+
+      '<div class="prv">'+(rs?'Última vez: <b>'+esc(setTxt(rs,!rs.w,o.ex))+'</b>':'')+'</div></div>';
+  }).join('')+'</div>';
+}
+function ssBuild(){
+  const L=ssItems();if(L.length<2){SS=null;return;}
+  const n=Math.min(MAX_SETS,Math.max(...L.map(o=>o.it?o.it.sets.length:(o.R.length||3))));
+  $('ssForm').innerHTML=(SS.bi==null?'<div class="ss-hd"><span>⇄ Superserie</span><button type="button" class="icon-btn" data-act="ss-cancel" aria-label="Cancelar la superserie">✕</button></div><div class="mu">'+esc(L.map(o=>o.ex.name).join(' + '))+'</div>':'')+
+    '<div class="ss-x ss-cols" aria-hidden="true"><span></span><span>Peso (kg)</span><span>Reps</span></div>'+
+    '<div id="ssRows">'+Array.from({length:n},(_,i)=>ssRowHTML(i,L)).join('')+'</div>'+
+    '<div class="ss-acts"><button type="button" class="btn small" data-act="ss-add" id="ssAdd">+ Serie</button><button type="button" class="btn small" data-act="ss-del" id="ssDel">− Serie</button></div>'+
+    '<div class="field"><label for="ssNote">Nota (opcional)</label><textarea id="ssNote" placeholder="Sensaciones, técnica, RIR…"></textarea></div>'+
+    '<button class="btn primary" data-act="ss-save">Guardar superserie</button>';
+  ssCount();
+}
+function ssCount(){const n=$('ssRows').children.length;$('ssAdd').disabled=n>=MAX_SETS;$('ssDel').disabled=n<=1;}
+/* Abre la superserie de un bloque del plan */
+function openPlanSS(bi,scroll){
+  const ses=ssSes();if(!ses||!ses.blocks[bi])return;
+  const ids=ses.blocks[bi].items.map(it=>ensureMoveEx(it.key).id);
+  if(!save())return;
+  if(editingId){editingId=null;$('note').value='';$('saveBtn').textContent='Guardar ejercicio';$('cancelEdit').style.display='none';}
+  document.querySelectorAll('#planBox .pi.on').forEach(b=>b.classList.remove('on'));
+  renderExSelect();$('exSel').value='';SS={ids,bi};formOpen=true;
+  ssBuild();placeForm(scroll);
+}
+/* Guarda un registro por ejercicio (solo las series con repeticiones), todos con el mismo «ss» */
+function ssSave(){
+  const date=$('date').value||todayISO(),L=ssItems(),gid=uid(),note=$('ssNote').value.trim(),rows=[...$('ssRows').children],now=Date.now(),add=[];
+  L.forEach((o,k)=>{
+    const sets=rows.map(r=>{const x=r.querySelector('.ss-x[data-k="'+k+'"]');if(!x)return null;const [wi,ri]=x.querySelectorAll('input');return {w:Math.max(0,num(wi.value)),r:Math.round(num(ri.value))};}).filter(z=>z&&z.r>0);
+    if(sets.length)add.push({id:uid(),date,exId:o.ex.id,sets,note,created:now+add.length,ss:gid});
+  });
+  if(!add.length){toast('Apunta las repeticiones de al menos una serie');return;}
+  if(add.length===1)delete add[0].ss;
+  const inPlan=SS.bi!=null;
+  add.forEach(e=>S.entries.push(e));
+  planSync();
+  if(planOn())add.forEach(e=>planRecord(date,e.exId));
+  if(!save())return;
+  resetForm();
+  let msg=add.length>1?'Superserie guardada':'Guardado';
+  if(inPlan){
+    const nx=nextPending(date);
+    if(nx){selectPlanItem(nx.key,true);msg+=' · Siguiente: '+moveEx(nx.key).name;}
+    else{$('planBox').scrollIntoView({behavior:'smooth',block:'start'});const fin=sesDoneMsg(date);if(fin)msg=fin;}
+  }
+  toast(msg,true);
 }
 /* Clasificación de la ECN: básicos (el eje del método), complementarios (multiarticulares de apoyo) y aislamiento (un solo músculo).
    Se deduce del nombre; no se guarda nada. «Misma especie» = misma clase y mismo grupo muscular que el hueco del plan. */
@@ -2633,6 +2764,7 @@ function fillSets(sets){
   renderLive();
 }
 function onExChange(){
+  SS=null;
   renderLast();renderQuick();
   const exId=$('exSel').value;
   document.querySelectorAll('#planBox .pi[data-key]').forEach(b=>{const e=moveEx(b.dataset.key);b.classList.toggle('on',!!e&&e.id===exId);});
@@ -2645,7 +2777,7 @@ function onExChange(){
   placeForm();
 }
 $('exSel').addEventListener('change',()=>{formOpen=true;onExChange();placeForm(true);});
-$('date').addEventListener('change',()=>{if(!$('date').value)$('date').value=todayISO();renderLog();});
+$('date').addEventListener('change',()=>{if(!$('date').value)$('date').value=todayISO();SS=null;renderLog();});
 $('addSet').addEventListener('click',()=>{
   /* Con 4 series ya, la nueva fila es una aproximación (A) y va arriba, antes de las series efectivas */
   if(effRows()>=MAX_SETS){const d=addSetRow({wu:true,top:true});d.querySelector('input').focus();renderLive();return;}
@@ -2664,18 +2796,23 @@ function goNewExercise(){
 $('goNewEx').addEventListener('click',()=>openAdd());
 /* ---------- Añadir un ejercicio en un momento, sin salir de «Hoy» (20/11/2026) ----------
    Busca entre tus ejercicios y el catálogo; si no existe, lo creas con su nombre y grupo muscular (se deduce del nombre). */
-let addCatTouched=false;
+let addCatTouched=false,ADDM={mode:'one',sel:[]};
 function openAdd(){
+  ADDM={mode:'one',sel:[]};
   const d=derive(),lastUse=e=>{const l=d.byEx[e.id];return l?l[l.length-1].date:'';};
   const mine=[...S.exercises].sort((a,b)=>lastUse(b).localeCompare(lastUse(a))||byName(a,b));
   const have=new Set(S.exercises.map(e=>e.name.toLowerCase())),cat=[];
   CAT_ORDER.forEach(c=>(CATALOG[c]||[]).forEach(x=>{if(!have.has(x[0].toLowerCase()))cat.push({name:x[0],cat:c,range:x[1],unit:x[2]||''});}));
   const row=(attrs,name,sub,fig)=>'<button type="button" class="alt-o" data-act="add-pick" '+attrs+' data-q="'+esc(name.toLowerCase())+'"><span class="mfig">'+figSVG(fig)+'</span><span>'+esc(name)+'<small>'+sub+'</small></span></button>';
-  $('addBody').innerHTML='<input type="text" id="addQ" placeholder="Escribe el nombre (p. ej. curl martillo)" aria-label="Nombre del ejercicio" autocomplete="off" style="margin-top:10px">'+
+  $('addBody').innerHTML='<div class="seg sm" id="addMode" role="group" aria-label="Qué quieres añadir" style="margin-top:10px">'+
+      '<button type="button" data-act="add-mode" data-v="one" aria-pressed="true">Un ejercicio</button><button type="button" data-act="add-mode" data-v="ss" aria-pressed="false">Superserie (2–3)</button></div>'+
+    '<p class="hint" id="addModeHint" hidden>Toca 2 o 3 ejercicios en el orden en que los vas a hacer.</p>'+
+    '<input type="text" id="addQ" placeholder="Escribe el nombre (p. ej. curl martillo)" aria-label="Nombre del ejercicio" autocomplete="off" style="margin-top:10px">'+
     '<div id="addNew" class="add-new" hidden><label class="lbl" for="addCat">Grupo muscular</label><select id="addCat">'+catOptionsHTML()+'</select><button type="button" class="btn primary" style="margin-top:8px" data-act="add-create" id="addCreate">Crear</button><p class="hint" id="addNewHint"></p></div>'+
     (mine.length?'<div class="alt-sec"><div class="cat-h">Tus ejercicios</div><div class="alt-list">'+mine.map(e=>row('data-id="'+esc(e.id)+'"',e.name,esc(CATS[e.cat].label)+(lastUse(e)?' · último: '+esc(fmtShort(lastUse(e))):''),figFor(e))).join('')+'</div></div>':'')+
     '<div class="alt-sec"><div class="cat-h">Catálogo</div><div class="alt-list">'+cat.map(o=>row('data-name="'+esc(o.name)+'" data-cat="'+o.cat+'" data-range="'+esc(o.range)+'" data-unit="'+esc(o.unit)+'"',o.name,esc(CATS[o.cat].label)+' · se añadirá a tus ejercicios',figFor({name:o.name,cat:o.cat}))).join('')+'</div></div>'+
-    '<p class="hint" style="margin-top:14px"><button type="button" class="linkbtn" data-act="add-more">Más opciones (imagen, rango de repeticiones…) en Ejercicios</button></p>';
+    '<p class="hint" style="margin-top:14px"><button type="button" class="linkbtn" data-act="add-more">Más opciones (imagen, rango de repeticiones…) en Ejercicios</button></p>'+
+    '<div class="add-go" id="addGo" hidden><div class="add-sel" id="addSel"></div><button type="button" class="btn primary" data-act="add-ss-go" id="addGoBtn">Empezar superserie</button></div>';
   $('addSheet').hidden=false;document.body.style.overflow='hidden';
   addCatTouched=false;
   const q=$('addQ');
@@ -2692,7 +2829,7 @@ function addFilter(){
   $('addNew').hidden=!raw||exact;
   if(raw&&!exact){
     if(!addCatTouched)$('addCat').value=inferCat(raw,'');
-    $('addCreate').textContent='Crear «'+(raw.length>26?raw.slice(0,25)+'…':raw)+'»';
+    $('addCreate').textContent=(ADDM.mode==='ss'?'Añadir «':'Crear «')+(raw.length>24?raw.slice(0,23)+'…':raw)+'»';
     $('addNewHint').textContent=n?'¿Es uno de estos? Tócalo abajo. Si no, créalo.':'No está en tu lista ni en el catálogo: se creará con ese nombre.';
   }
 }
@@ -2703,18 +2840,54 @@ function addEnter(){
   if(v.length)v[0].click();else if(!$('addNew').hidden)$('addCreate').click();
 }
 function closeAdd(){$('addSheet').hidden=true;document.body.style.overflow='';}
+/* Modo superserie de la hoja: marca los elegidos (con su orden) y el botón para empezar */
+const addKey=o=>o.id?o.id:'n:'+o.name.toLowerCase();
+function addSelSync(){
+  const ss=ADDM.mode==='ss';
+  $('addMode').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===ADDM.mode)));
+  $('addModeHint').hidden=!ss;$('addGo').hidden=!ss;
+  $('addBody').querySelectorAll('.alt-o').forEach(o=>{
+    const i=ss?ADDM.sel.findIndex(x=>x.k===(o.dataset.id||'n:'+String(o.dataset.name).toLowerCase())):-1;
+    o.setAttribute('aria-pressed',String(i>=0));if(i>=0)o.dataset.n=i+1;else delete o.dataset.n;
+  });
+  const names=ADDM.sel.map(x=>x.id?(exById(x.id)||{}).name:x.name);
+  $('addSel').innerHTML=names.length?'Superserie: <b>'+esc(names.join(' + '))+'</b>':'Aún no has elegido ningún ejercicio.';
+  $('addGoBtn').disabled=ADDM.sel.length<2;
+  $('addGoBtn').textContent=ADDM.sel.length<2?'Elige al menos 2':'Empezar superserie ('+ADDM.sel.length+')';
+  if(!$('addNew').hidden)addFilter();
+}
+function addToggle(o){
+  const k=addKey(o),i=ADDM.sel.findIndex(x=>x.k===k);
+  if(i>=0)ADDM.sel.splice(i,1);
+  else{if(ADDM.sel.length>=3){toast('Como mucho 3 ejercicios en una superserie');return;}ADDM.sel.push(Object.assign({k},o));}
+  addSelSync();
+}
+/* Empieza una superserie tuya (fuera del plan): crea los que aún no existen y abre el formulario conjunto */
+function addSSGo(){
+  if(ADDM.sel.length<2)return;
+  const ids=ADDM.sel.map(o=>{
+    let e=o.id?exById(o.id):exByName(o.name);
+    if(!e){const c=CATS[o.cat]?o.cat:'otro';e={id:uid(),name:o.name,cat:c,group:CATS[c].label};if(o.range)e.range=o.range;if(o.unit==='s')e.unit='s';S.exercises.push(e);}
+    return e.id;
+  });
+  if(!save())return;
+  closeAdd();
+  if(editingId){editingId=null;$('note').value='';$('saveBtn').textContent='Guardar ejercicio';$('cancelEdit').style.display='none';}
+  $('exSel').value='';SS={ids,bi:null};formOpen=true;
+  ssBuild();renderLog();placeForm(true);
+}
 /* Abre el formulario del ejercicio elegido: con plan, debajo de «+ Añadir ejercicio»; sin plan, como siempre */
 function addPick(ex){
   if(!save())return;
   closeAdd();
   if(editingId){editingId=null;$('note').value='';$('saveBtn').textContent='Guardar ejercicio';$('cancelEdit').style.display='none';}
-  formOpen=true;
+  formOpen=true;SS=null;
   renderExSelect();$('exSel').value=ex.id;
   renderLog();onExChange();placeForm(true);
 }
 let preEditDate=null;   // día en el que estabas antes de pulsar «Editar»
 function resetForm(){
-  editingId=null;
+  editingId=null;SS=null;
   $('note').value='';
   $('saveBtn').textContent='Guardar ejercicio';
   $('cancelEdit').style.display='none';
@@ -2764,12 +2937,12 @@ function renderDay(){
   const list=(derive().byDate[date]||[]);
   const sm=daySummary(list);
   $('daySum').innerHTML=list.length?'<div class="stats-row" style="margin:0 0 10px">'+statHTML(sm.n,sm.n===1?'ejercicio':'ejercicios')+statHTML(sm.sets,'series efectivas')+'</div>':'';
-  $('dayList').innerHTML=list.length?list.map(entryHTML).join(''):'<div class="empty">Nada registrado todavía.</div>';
+  $('dayList').innerHTML=list.length?entriesHTML(list):'<div class="empty">Nada registrado todavía.</div>';
 }
 function startEdit(id){
   const e=S.entries.find(x=>x.id===id);if(!e)return;
   if(!editingId)preEditDate=$('date').value;
-  editingId=id;
+  editingId=id;SS=null;
   $('date').value=e.date;
   showTab('log');
   $('exSel').value=e.exId;
@@ -2877,7 +3050,7 @@ function renderDayPanel(){
   }else{
     const sm=daySummary(list);
     h+='<div class="stats-row">'+statHTML(sm.n,sm.n===1?'ejercicio':'ejercicios')+statHTML(sm.sets,'series efectivas')+(bwE?statHTML(fmtW(bwE.kg)+' <small>kg</small>','peso corporal'):'')+'</div>';
-    h+='<div class="list" style="margin-top:10px">'+list.map(entryHTML).join('')+'</div>';
+    h+='<div class="list" style="margin-top:10px">'+entriesHTML(list)+'</div>';
   }
   $('dayPanel').innerHTML='<div class="dp card">'+h+'</div>';
 }
@@ -3266,7 +3439,15 @@ document.addEventListener('click',ev=>{
     case 'new-ex':openAdd();break;
     case 'add-open':openAdd();break;
     case 'add-close':closeAdd();break;
+    case 'add-mode':ADDM.mode=el.dataset.v==='ss'?'ss':'one';addSelSync();break;
+    case 'add-ss-go':addSSGo();break;
+    case 'ss-add':{const n=$('ssRows').children.length;if(n<MAX_SETS){$('ssRows').insertAdjacentHTML('beforeend',ssRowHTML(n,ssItems()));ssCount();}break;}
+    case 'ss-del':{const r=$('ssRows');if(r.children.length>1){r.lastElementChild.remove();ssCount();}break;}
+    case 'ss-save':ssSave();break;
+    case 'ss-cancel':SS=null;renderLog();break;
+    case 'ss-toggle':formOpen=!formOpen;placeForm(formOpen);break;
     case 'add-pick':{
+      if(ADDM.mode==='ss'){addToggle(el.dataset.id?{id:el.dataset.id}:{name:el.dataset.name,cat:el.dataset.cat,range:el.dataset.range,unit:el.dataset.unit});break;}
       let e=el.dataset.id?exById(el.dataset.id):exByName(el.dataset.name);
       if(!e&&el.dataset.name&&CATS[el.dataset.cat]){
         const c=el.dataset.cat;e={id:uid(),name:el.dataset.name,cat:c,group:CATS[c].label};
@@ -3277,6 +3458,10 @@ document.addEventListener('click',ev=>{
     }
     case 'add-create':{
       const name=cap($('addQ').value.trim().replace(/\s+/g,' ')).slice(0,60);if(!name)break;
+      if(ADDM.mode==='ss'){
+        const ex=exByName(name);addToggle(ex?{id:ex.id}:{name,cat:CATS[$('addCat').value]?$('addCat').value:'otro'});
+        $('addQ').value='';addFilter();break;
+      }
       let e=exByName(name);
       if(!e){const c=CATS[$('addCat').value]?$('addCat').value:'otro';e={id:uid(),name,cat:c,group:CATS[c].label};S.exercises.push(e);}
       addPick(e);toast('Añadido: '+e.name,true);break;
@@ -3291,6 +3476,7 @@ document.addEventListener('click',ev=>{
       if(row&&row.classList.contains('open')){formOpen=false;placeForm();break;}
       if($('exSel').value===id){formOpen=true;placeForm(true);break;}
       if(editingId){editingId=null;$('note').value='';$('saveBtn').textContent='Guardar ejercicio';$('cancelEdit').style.display='none';}
+      if(SS){SS=null;renderLog();}
       formOpen=true;$('exSel').value=id;onExChange();placeForm(true);break;
     }
     case 'day':
@@ -3329,7 +3515,8 @@ document.addEventListener('click',ev=>{
     case 'ph-goto':{const k=el.dataset.ph;if(PH[k]&&confirm('¿Pasar a la Fase '+PH[k].n+' ('+PH[k].short+') desde la semana 1? Lo que ya has registrado no cambia.'))planGoto(k,1);break;}
     case 'ph-goto-wk':planGoto(el.dataset.ph,+$('phWk').value);break;
     case 'plan-item':{   // acordeón: toca para abrir debajo; vuelve a tocar para cerrar (lo escrito se conserva)
-      const key=el.dataset.key,row=el.closest('.pi-row'),e=moveEx(key);
+      const key=el.dataset.key,row=el.closest('.pi-row'),e=moveEx(key),sb=ssBlockOf(key);
+      if(sb!=null){if(SS&&SS.bi===sb){formOpen=!formOpen;placeForm(formOpen);}else openPlanSS(sb,true);break;}   // superserie: un solo formulario
       if(row&&row.classList.contains('open')){formOpen=false;placeForm();break;}
       if(e&&$('exSel').value===e.id){formOpen=true;placeForm(true);break;}
       selectPlanItem(key,true);break;
