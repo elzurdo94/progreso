@@ -402,7 +402,7 @@ details.card[open]>summary::after{content:"−"}
 .ecn-tag.e-bas{border-color:var(--accent);background:var(--sel)}
 .ecn-tag.e-ais{border-style:dashed}
 details.alt-grp{margin-top:6px;border-top:1px solid var(--line)}
-details.alt-grp>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:14px 0 6px}
+details.alt-grp>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);font-weight:700;padding:14px 0 6px}
 details.alt-grp>summary::-webkit-details-marker{display:none}
 details.alt-grp>summary::before{content:"▸";font-size:13px}
 details.alt-grp[open]>summary::before{content:"▾"}
@@ -503,7 +503,7 @@ details.pb-d .pb-i{margin-top:6px}
 #logForm.inl .last .big{font-size:30px}
 #logForm.inl .set input{background:var(--surface)}
 .plan-how{margin-top:12px;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--panel)}
-.plan-how-h{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--accent-text);margin-bottom:4px}
+.plan-how-h{font-size:14px;font-weight:800;color:var(--accent-text);margin-bottom:4px}
 .ph-r{display:grid;grid-template-columns:78px 1fr;gap:8px;padding:6px 0;border-top:1px solid var(--line);font-size:13px;line-height:1.4}
 .ph-r:first-of-type{border-top:0}
 .ph-r b{color:var(--text);font-weight:800}
@@ -1138,10 +1138,18 @@ const FIG_RX=[
   ['pushdown',/tr[ií]cep/]
 ];
 const FIG_CAT={pierna:'squat',femoral:'rdl',gemelo:'calf',core:'crunch',pecho:'bench',espalda:'row',hombro:'ohp',biceps:'curl',triceps:'pushdown',otro:'generic'};
+/* Grupos de figuras compatibles con cada categoría: si el nombre apunta a otro músculo (p. ej. «hammer» en un press de pecho),
+   manda la categoría que elegiste (20/11/2026) */
+const FIG_OK={'Tren inferior':['pierna','femoral','gemelo'],'Core':['core'],'Pectoral':['pecho','triceps','hombro'],
+  'Espalda':['espalda','biceps','hombro'],'Hombro':['hombro','espalda','pecho','triceps'],'Brazos':['biceps','triceps']};
 function figFor(ex){
   if(!ex)return 'generic';
   if(ex.fig&&FIG[ex.fig])return ex.fig;
   const n=String(ex.name||'').toLowerCase(),m=n?FIG_RX.find(x=>x[1].test(n)):null;
+  if(m&&CATS[ex.cat]&&ex.cat!=='otro'){
+    const g=FIG_GROUPS.find(x=>x[1].includes(m[0])),ok=g&&FIG_OK[g[0]];
+    if(ok&&!ok.includes(ex.cat))return FIG_CAT[ex.cat]||m[0];
+  }
   return m?m[0]:(FIG_CAT[ex.cat]||'generic');
 }
 const RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1195,6 +1203,7 @@ function migrate(d){
     if(e.range&&/^\d+-\d+$/.test(e.range))ex.range=e.range;
     if(e.unit==='s')ex.unit='s';
     if(typeof e.fig==='string'&&/^[a-z]{2,20}$/.test(e.fig))ex.fig=e.fig;
+    if(['bas','comp','ais'].includes(e.ecn))ex.ecn=e.ecn;   // clase ECN elegida al crearlo (opcional, 20/11/2026)
     out.exercises.push(ex);
   });
   d.entries.forEach(e=>{
@@ -2368,6 +2377,7 @@ function patOf(name,cat){
 }
 const ECN_ORDER=['bas','comp','ais'];
 function ecnOf(name,cat){
+  const own=exByName(name);if(own&&ECN[own.ecn])return own.ecn;   // la que elegiste al crearlo
   const n=String(name).toLowerCase(),has=rx=>rx.test(n);
   if(has(/curl|extensi[oó]n|franc[eé]s|skull|tr[ií]ceps (en )?polea|patada|elevaci[oó]n(es)? (laterale?s?|frontale?s?|de gemel|de piernas)|lateral raise|p[aá]jaro|face ?pull|apertura|cruces?\b|contractora|pec ?deck|pull ?over|gemel|calf|pantorr|s[oó]leo|crunch|plancha|rueda abdominal|dragon|hollow|pallof|dead ?bug|encogimiento|sissy|glute ?ham|\bghr\b|n[oó]rdic|abducci|aducci|lumbar|hiperextensi/))return 'ais';
   const maq=has(/multipower|smith|m[aá]quina|asistid/);
@@ -2399,7 +2409,14 @@ function openAlt(key){
   const sp=ECN[slotT].p.toLowerCase()+' de '+esc(cats.map(mlabel).join(' / '))+(slotP&&slotP!=='dip'?' ('+PAT[slotP]+')':'');
   const recOther=pool.filter(o=>o.rec!=null&&!same.includes(o)).sort(ord);
   let h='<div class="alt-slot">Este hueco: <span class="ecn-tag e-'+slotT+'">'+ECN[slotT].t+'</span> de '+esc(cats.map(mlabel).join(' / '))+(slotP&&slotP!=='dip'?' · '+PAT[slotP]:'')+'</div>'+
-    '<input type="text" id="altQ" placeholder="Buscar ejercicio (p. ej. sentadilla)" aria-label="Buscar ejercicio" autocomplete="off" style="margin-top:8px">'+
+    '<input type="text" id="altQ" placeholder="Busca o escribe uno nuevo" aria-label="Buscar o crear ejercicio" autocomplete="off" style="margin-top:8px">'+
+    /* Crear un ejercicio nuevo aquí mismo (20/11/2026): aparece al escribir un nombre que no existe */
+    '<div id="altNew" class="add-new" hidden>'+
+      '<label class="lbl" for="altCat">Grupo muscular</label><select id="altCat">'+catOptionsHTML()+'</select>'+
+      '<span class="lbl" style="margin-top:12px">Tipo</span><div class="seg sm" id="altEcn" role="group" aria-label="Tipo de ejercicio">'+
+        ECN_ORDER.map(t=>'<button type="button" data-act="alt-ecn" data-v="'+t+'" aria-pressed="false">'+ECN[t].t+'</button>').join('')+'</div>'+
+      '<p class="hint" id="altNewHint"></p>'+
+      '<button type="button" class="btn primary" style="margin-top:10px" data-act="alt-create" data-key="'+key+'" id="altCreate">Crear</button></div>'+
     '<details class="fold"><summary>Básico, complementario y aislamiento</summary><p class="hint" style="margin-top:2px">'+esc(GLOSARIO.find(g=>g[0].startsWith('Básico'))[1])+' Lo que elijas se recordará para las próximas sesiones y puedes volver a cambiarlo cuando quieras.</p></details>';
   h+='<div class="alt-sec" data-def="1"><div class="cat-h">Misma especie · '+sp+'</div><div class="alt-list">'+same.map(o=>btn(o,tail(o))).join('')+'</div></div>';
   if(recOther.length)h+='<div class="alt-sec" data-def="1"><div class="cat-h">Otras opciones recomendadas</div><div class="alt-list">'+recOther.map(o=>btn(o,ECN[o.ecn].t+' · '+esc(mlabel(o.cat))+' · '+tail(o))).join('')+'</div></div>';
@@ -2411,16 +2428,34 @@ function openAlt(key){
     CAT_ORDER.forEach(c=>{const g=list.filter(o=>o.cat===c).sort(ord);if(g.length)body+='<div class="alt-sub">'+esc(CATS[c]?CATS[c].label:c)+'</div><div class="alt-list">'+g.map(o=>btn(o,tail(o))).join('')+'</div>';});
     h+='<details class="alt-sec alt-grp"><summary>'+(t===slotT?ECN[t].o:ECN[t].p)+' <span>'+list.length+'</span></summary>'+body+'</details>';
   });
-  h+='<p class="hint" id="altNone" hidden>No hay ningún ejercicio con ese nombre. Puedes crearlo en la pestaña Ejercicios.</p>';
   $('altTitle').textContent='Cambiar: '+(cur?cur.name:m.def);
   $('altBody').innerHTML=h;$('altSheet').hidden=false;document.body.style.overflow='hidden';
+  ALTN={key,cat:null,ecn:null,slotT,slotLab:ECN[slotT].t.toLowerCase()+' de '+cats.map(mlabel).join(' / ')};
+  $('altCat').value=cats[0];
   $('altQ').addEventListener('input',()=>{
-    const q=$('altQ').value.trim().toLowerCase();let n=0;
+    const raw=$('altQ').value.trim(),q=raw.toLowerCase();let n=0;
     $('altBody').querySelectorAll('.alt-o').forEach(o=>{const ok=!q||o.dataset.q.includes(q);o.hidden=!ok;if(ok)n++;});
     $('altBody').querySelectorAll('.alt-list').forEach(l=>{const any=[...l.children].some(c=>!c.hidden);l.hidden=!any;const p=l.previousElementSibling;if(p&&p.classList.contains('alt-sub'))p.hidden=!any;});
     $('altBody').querySelectorAll('.alt-sec').forEach(sec=>{const any=[...sec.querySelectorAll('.alt-o')].some(c=>!c.hidden);sec.hidden=!any;if(sec.tagName==='DETAILS')sec.open=!!q&&any;});
-    $('altNone').hidden=n>0;
+    $('altNew').hidden=!raw||seen.has(q);
+    if(!$('altNew').hidden)altNewSync();
   });
+  $('altQ').addEventListener('keydown',e=>{
+    if(e.key!=='Enter')return;e.preventDefault();
+    if(!$('altQ').value.trim())return;
+    const v=[...$('altBody').querySelectorAll('.alt-o')].filter(o=>!o.hidden);
+    if(v.length)v[0].click();else if(!$('altNew').hidden)$('altCreate').click();
+  });
+  $('altCat').addEventListener('change',()=>{ALTN.cat=$('altCat').value;altNewSync();});
+}
+/* Ejercicio nuevo desde «Cambiar»: grupo muscular (por defecto, el del hueco) y tipo ECN (deducido del nombre; se puede cambiar) */
+let ALTN=null;
+function altNewSync(){
+  if(!ALTN)return;
+  const raw=$('altQ').value.trim(),cat=$('altCat').value,t=ALTN.ecn||ecnOf(raw,cat);
+  $('altEcn').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===t)));
+  $('altCreate').textContent='Crear y usar en este hueco';
+  $('altNewHint').textContent=(t===ALTN.slotT?'':'Este hueco es para un '+ALTN.slotLab+'. ')+'Se guardará en tus ejercicios y quedará en este hueco del plan.';
 }
 function closeAlt(){$('altSheet').hidden=true;document.body.style.overflow='';}
 
@@ -3312,6 +3347,21 @@ document.addEventListener('click',ev=>{
     case 'plan-goto':planGoto(el.dataset.ph,+el.dataset.mc);break;
     case 'plan-alt':openAlt(el.dataset.key);break;
     case 'alt-close':closeAlt();break;
+    case 'alt-ecn':if(ALTN){ALTN.ecn=el.dataset.v;altNewSync();}break;
+    case 'alt-create':{
+      const key=el.dataset.key;if(!MOVES[key]||!ALTN)break;
+      const name=cap($('altQ').value.trim().replace(/\s+/g,' ')).slice(0,60);if(!name)break;
+      let e=exByName(name);
+      if(!e){
+        const c=CATS[$('altCat').value]?$('altCat').value:MOVES[key].cats[0];
+        e={id:uid(),name,cat:c,group:CATS[c].label,ecn:ALTN.ecn||ecnOf(name,c)};
+        S.exercises.push(e);
+      }
+      S.plan.pick[key]=e.id;
+      if(!save())return;
+      closeAlt();renderLog();selectPlanItem(key,true);
+      toast('Creado y puesto en el plan: '+e.name,true);break;
+    }
     case 'alt-pick':{
       const key=el.dataset.key,e=el.dataset.id?exById(el.dataset.id):createEx(el.dataset.name,key);
       if(!e||!MOVES[key])break;
